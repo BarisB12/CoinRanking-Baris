@@ -6,9 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.coinranking_baris.databinding.CoinsItemBinding
 import com.example.coinranking_baris.model.Coin
+import com.example.coinranking_baris.model.Coins
 
 class CoinsAdapter(
-    private var coinsList: List<Coin> = listOf()
+    private var coinList: List<Coin> = listOf()
 ) : RecyclerView.Adapter<CoinsAdapter.CoinsCardHolder>() {
 
     inner class CoinsCardHolder(binding: CoinsItemBinding) :
@@ -23,20 +24,16 @@ class CoinsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinsCardHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding: CoinsItemBinding = CoinsItemBinding.inflate(inflater, parent, false)
-
+        val context = parent.context
         return CoinsCardHolder(binding)
-    }
-
-    override fun getItemCount(): Int {
-        return coinsList.size
     }
 
     override fun onBindViewHolder(holder: CoinsCardHolder, position: Int) {
         val item = holder.binding
-        val coin = coinsList[position]
+        val coin = coinList[position]
 
         item.textViewCoin.text = coin.name
-        item.textViewsymbol.text = coin.symbol
+        item.textViewSymbol.text = coin.symbol
         item.textPrice.text = coin.price
         item.textMarketCap.text = coin.marketCap
 
@@ -44,9 +41,12 @@ class CoinsAdapter(
             .load(coin.iconUrl)
             .into(item.buttonRound)
     }
+    override fun getItemCount(): Int {
+        return coinList.size
+    }
 
-    fun submitList(doctorList: List<Coin>) {
-        this.coinsList = doctorList as ArrayList<Coin>
+    fun submitList(coinList: List<Coin>) {
+        this.coinList = coinList
 
         notifyDataSetChanged()
     }

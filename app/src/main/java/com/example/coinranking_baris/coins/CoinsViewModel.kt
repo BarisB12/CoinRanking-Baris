@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.coinranking_baris.model.Coin
+import com.example.coinranking_baris.model.Coins
 import com.example.coinranking_baris.repository.CoinRepository
 import kotlinx.coroutines.launch
 
@@ -16,7 +17,10 @@ class CoinsViewModel: ViewModel() {
 
     init {
         viewModelScope.launch {
-            _coinList.value = coinRepository.getAllDoctors().coins
+            val coins = coinRepository.getAllCoins()
+            coins?.let {
+                _coinList.value = coins.data.coins
+            }
         }
     }
 }
