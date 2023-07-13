@@ -13,7 +13,7 @@ import com.example.coinranking_baris.databinding.FragmentDetailCoinsBinding
 import com.example.coinranking_baris.detailcoins.CoinsDetailAdapter
 import com.example.coinranking_baris.detailcoins.CoinsDetailViewModel
 
-class DetailCoinsFragment : Fragment() {
+class CoinsDetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailCoinsBinding
     private lateinit var adapter: CoinsDetailAdapter
     private lateinit var recyclerView: RecyclerView
