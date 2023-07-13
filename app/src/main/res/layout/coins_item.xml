@@ -6,10 +6,11 @@
     android:layout_height="80dp">
 
     <TextView
-        android:id="@+id/textviewCoin"
+        android:id="@+id/textViewCoin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Coin"
+        android:textColor="@color/black"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,11 +32,11 @@
         app:layout_constraintVertical_bias="0.262" />
 
     <TextView
-        android:id="@+id/textPriceDetail"
+        android:id="@+id/textMarketCap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="detail"
+        android:text="MarketCap"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -53,7 +54,7 @@
         app:layout_constraintVertical_bias="0.428" />
 
     <TextView
-        android:id="@+id/textViewName"
+        android:id="@+id/textViewSymbol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
