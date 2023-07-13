@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'androidx.navigation.safeargs.kotlin'
+
 }
 
 android {
@@ -19,6 +21,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "API_HOST", "\"https://api.coinranking.com\""
+        buildConfigField "String", "API_KEY", "\"coinranking1fca6ff7439ec52b54c4e373598c642538251ada065ba2ca\""
+
     }
 
     buildTypes {
