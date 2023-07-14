@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coinranking_baris.coins.CoinsAdapter
 import com.example.coinranking_baris.coins.CoinsViewModel
-import com.example.coinranking_baris.databinding.FragmentCoinBinding
+import com.example.coinranking_baris.databinding.FragmentCoinsBinding
 
 class CoinsFragment : Fragment() {
-    private lateinit var binding: FragmentCoinBinding
+    private lateinit var binding: FragmentCoinsBinding
     private lateinit var adapter: CoinsAdapter
     private lateinit var recyclerView: RecyclerView
 
@@ -24,7 +24,7 @@ class CoinsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentCoinBinding.inflate(inflater)
+        binding = FragmentCoinsBinding.inflate(inflater)
         recyclerView = binding.recyclerView
         adapter = CoinsAdapter()
         recyclerView.adapter = adapter

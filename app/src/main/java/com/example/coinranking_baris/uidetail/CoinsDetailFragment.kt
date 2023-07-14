@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -17,6 +18,7 @@ class CoinsDetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailCoinsBinding
     private lateinit var adapter: CoinsDetailAdapter
     private lateinit var recyclerView: RecyclerView
+    private val args by navArgs<CoinsDetailFragmentArgs>()
 
     private val viewModel: CoinsDetailViewModel by viewModels()
 
@@ -28,15 +30,14 @@ class CoinsDetailFragment : Fragment() {
 
         binding = FragmentDetailCoinsBinding.inflate(inflater)
         recyclerView = binding.recyclerViewDetail
-        adapter = CoinsDetailAdapter()
+
+        adapter = CoinsDetailAdapter(listOf(args.coin))
+
         recyclerView.adapter = adapter
 
         val layoutManager = LinearLayoutManager(requireContext())
         recyclerView.layoutManager = layoutManager
 
-        viewModel.coinDetailList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-        }
         return binding.root
     }
 }
