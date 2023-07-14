@@ -2,12 +2,13 @@ package com.example.coinranking_baris.detailcoins
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coinranking_baris.databinding.FragmentDetailItemBinding
 import com.example.coinranking_baris.model.Coin
 
 class CoinsDetailAdapter(
-    private var coinDetailList: List<Coin> = listOf()
+    private var myValue: List<Coin> = listOf()
 ) : RecyclerView.Adapter<CoinsDetailAdapter.CoinsDetailCardHolder>() {
 
     inner class CoinsDetailCardHolder(binding: FragmentDetailItemBinding) :
@@ -28,23 +29,27 @@ class CoinsDetailAdapter(
 
     override fun onBindViewHolder(holder: CoinsDetailAdapter.CoinsDetailCardHolder, position: Int) {
         val item = holder.binding
-        val detailCoin = coinDetailList[position]
+        val myValueCoin = myValue[position]
 
-        item.textViewDetailPrice.text = detailCoin.price
-        item.textLowDetailPrice.text = detailCoin.lowVolume.toString()
-        item.textHighDetailPrice.text = detailCoin.price
-        item.textMarketDetailCap.text = detailCoin.marketCap
-        item.textDetailName.text = detailCoin.name
-        item.textViewDetailSymbol.text = detailCoin.symbol
+        item.textViewDetailPrice.text = myValueCoin.price
+        item.textLowDetailPrice.text = myValueCoin.lowVolume.toString()
+        item.textHighDetailPrice.text = myValueCoin.price
+        item.textMarketDetailCap.text = myValueCoin.marketCap
+        item.textDetailName.text = myValueCoin.name
+        item.textViewDetailSymbol.text = myValueCoin.symbol
 
+        item.imageViewBack.isClickable
+        item.imageViewBack.setOnClickListener {
+            Navigation.findNavController(item.root).navigateUp()
+        }
     }
 
     override fun getItemCount(): Int {
-        return coinDetailList.size
+        return myValue.size
     }
 
     fun submitList(coinList: List<Coin>) {
-        this.coinDetailList = coinList
+        this.myValue = coinList
 
         notifyDataSetChanged()
     }
