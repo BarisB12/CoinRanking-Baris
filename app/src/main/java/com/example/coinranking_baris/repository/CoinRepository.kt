@@ -2,12 +2,13 @@ package com.example.coinranking_baris.repository
 
 import com.example.coinranking_baris.api.CoinService
 import com.example.coinranking_baris.api.Service
-import com.example.coinranking_baris.model.Data
+import com.example.coinranking_baris.model.Coins
+
 
 class CoinRepository(
     private var service: CoinService = Service.getCoinService()
 ){
-        suspend fun getAllDoctors(): Data {
-            return this.service.getAllcoins()
+        suspend fun getAllCoins(): Coins {
+            return this.service.getAllCoins()
         }
 }

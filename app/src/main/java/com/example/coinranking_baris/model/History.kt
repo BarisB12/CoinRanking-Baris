@@ -2,11 +2,10 @@ package com.example.coinranking_baris.model
 
 
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
-data class Coins(
+data class History(
     @SerializedName("data")
-    val data: Data,
+    val `data`: DataX,
     @SerializedName("status")
-    val status: String,
+    val status: String
 )

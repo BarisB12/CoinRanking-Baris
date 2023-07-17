@@ -1,6 +1,5 @@
 package com.example.coinranking_baris.utils
 
-import android.graphics.Insets.add
 import android.widget.ImageView
 import coil.ImageLoader
 import coil.decode.SvgDecoder
@@ -20,6 +19,5 @@ fun ImageView.loadImageFromUrl(imageUrl: String) {
         .data(imageUrl)
         .target(this)
         .build()
-
     imageLoader.enqueue(request)
 }

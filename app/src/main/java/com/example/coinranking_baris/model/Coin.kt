@@ -2,6 +2,7 @@ package com.example.coinranking_baris.model
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Coin(
     @SerializedName("btcPrice")
@@ -36,4 +37,4 @@ data class Coin(
     val tier: Int,
     @SerializedName("uuid")
     val uuid: String
-)
+) : Serializable
