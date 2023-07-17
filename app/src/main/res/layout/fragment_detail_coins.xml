@@ -24,7 +24,7 @@
                 android:id="@+id/textViewDetailPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="2dp"
                 android:text="PRICE"
                 android:textColor="@color/black"
@@ -36,8 +36,8 @@
                 android:id="@+id/textMarketDetailCap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
                 android:text="Market Cap"
                 android:textColor="@color/green"
                 android:textSize="18sp"
@@ -48,7 +48,7 @@
                 android:id="@+id/textViewDetailCurrent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="96dp"
                 android:text="CURRENT PRICE"
                 android:textColor="@color/purple_700"
@@ -73,20 +73,22 @@
                 android:id="@+id/textViewLow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
                 android:layout_marginEnd="1dp"
                 android:layout_marginBottom="40dp"
                 android:text="Low:"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textLowDetailPrice" />
+                app:layout_constraintEnd_toStartOf="@+id/textLowDetailPrice"
+                app:layout_constraintTop_toBottomOf="@+id/textViewHigh" />
 
             <TextView
                 android:id="@+id/textHighDetailPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="74dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="20dp"
                 android:text="Price"
                 android:textColor="@color/green"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -96,12 +98,14 @@
                 android:id="@+id/textLowDetailPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="40dp"
                 android:text="Low Price"
                 android:textColor="@color/red"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textHighDetailPrice" />
 
             <TextView
                 android:id="@+id/textViewDetailSymbol"
@@ -137,7 +141,7 @@
                 android:layout_width="30sp"
                 android:layout_height="30sp"
 
-                android:layout_marginStart="1dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toTopOf="@+id/textViewDetailCurrent"
@@ -151,7 +155,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginEnd="1dp"
+                android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/bell" />
