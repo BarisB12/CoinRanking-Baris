@@ -16,9 +16,13 @@ class CoinsViewModel: ViewModel() {
     val coinList: LiveData<List<Coin>> = _coinList
     init {
         viewModelScope.launch {
-            val coins = coinRepository.getAllCoins()
-            coins?.let {
-                _coinList.value = coins.data.coins
+            try {
+                val coins = coinRepository.getAllCoins()
+                coins?.let {
+                    _coinList.value = coins.data.coin
+                }
+            } catch (e: Exception) {
+                println("Handle Exception $e")
             }
         }
     }
