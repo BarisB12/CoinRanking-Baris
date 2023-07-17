@@ -8,7 +8,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewDetail"
-        android:layout_width="411dp"
+        android:layout_width="match_parent"
         android:layout_height="216dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -141,7 +141,7 @@
                 android:layout_width="30sp"
                 android:layout_height="30sp"
 
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="1dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toTopOf="@+id/textViewDetailCurrent"
@@ -155,7 +155,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/bell" />
