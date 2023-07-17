@@ -9,19 +9,22 @@
     import android.widget.ArrayAdapter
     import android.widget.Spinner
     import androidx.fragment.app.viewModels
+    import androidx.lifecycle.viewModelScope
     import androidx.recyclerview.widget.LinearLayoutManager
     import androidx.recyclerview.widget.RecyclerView
+    import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     import com.example.coinranking_baris.R
     import com.example.coinranking_baris.coins.CoinsAdapter
     import com.example.coinranking_baris.coins.CoinsViewModel
     import com.example.coinranking_baris.databinding.FragmentCoinsBinding
+    import com.google.android.material.behavior.SwipeDismissBehavior
 
     class CoinsFragment : Fragment() {
         private lateinit var binding: FragmentCoinsBinding
         private lateinit var adapter: CoinsAdapter
         private lateinit var recyclerView: RecyclerView
         private lateinit var coinsSpinner: Spinner
-
+        private lateinit var swipeRefreshLayout: SwipeRefreshLayout
         private val viewModel: CoinsViewModel by viewModels()
 
         override fun onCreateView(
@@ -35,6 +38,11 @@
             adapter = CoinsAdapter()
             recyclerView.adapter = adapter
             coinsSpinner = binding.coinsSpinner
+            swipeRefreshLayout = binding.swipeRefreshLayout
+
+            swipeRefreshLayout.setOnRefreshListener {
+                viewModel.applySortOption(coinsSpinner.selectedItem as String)
+            }
 
             val layoutManager = LinearLayoutManager(requireContext())
             recyclerView.layoutManager = layoutManager
@@ -51,6 +59,8 @@
             viewModel.coinList.observe(viewLifecycleOwner) {
 
                 adapter.submitList(it)
+                swipeRefreshLayout.isRefreshing = false
+
             }
             coinsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
