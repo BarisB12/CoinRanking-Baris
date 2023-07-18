@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.coinranking_baris.model.Coin
 import com.example.coinranking_baris.repository.CoinRepository
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
 class CoinsViewModel: ViewModel() {
@@ -15,7 +16,10 @@ class CoinsViewModel: ViewModel() {
 
     val coinList: LiveData<List<Coin>> = _coinList
     init {
-        viewModelScope.launch {
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            println("Handle Exception $throwable")
+        }
+        viewModelScope.launch(exceptionHandler) {
             try {
                 val coins = coinRepository.getAllCoins()
                 coins?.let {
