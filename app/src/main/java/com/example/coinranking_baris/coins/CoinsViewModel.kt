@@ -22,7 +22,7 @@ class CoinsViewModel: ViewModel() {
         viewModelScope.launch(exceptionHandler) {
             try {
                 val coins = coinRepository.getAllCoins()
-                coins?.let {
+                coins.let {
                     _coinList.value = coins.data.coin
                 }
             } catch (e: Exception) {
