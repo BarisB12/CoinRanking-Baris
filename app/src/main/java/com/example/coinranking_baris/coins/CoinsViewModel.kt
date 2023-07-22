@@ -5,12 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.coinranking_baris.model.Coin
-import com.example.coinranking_baris.repository.CoinRepository
+import com.example.coinranking_baris.repository.CoinsRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
 class CoinsViewModel: ViewModel() {
-    private var coinRepository = CoinRepository()
+    private var coinRepository = CoinsRepository()
     private var _coinList = MutableLiveData<List<Coin>>()
     private val _selectedSortOption = MutableLiveData<String>()
 
