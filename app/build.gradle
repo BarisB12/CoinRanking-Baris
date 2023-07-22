@@ -88,4 +88,9 @@ dependencies {
     //Swiper Refresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
+    //Paging 3
+    implementation "androidx.paging:paging-compose:3.2.0-rc01"
+
+    //MPAndroidChart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
