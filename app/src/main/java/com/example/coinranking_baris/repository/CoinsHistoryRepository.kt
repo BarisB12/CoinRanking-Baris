@@ -1,14 +1,12 @@
 package com.example.coinranking_baris.repository
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import com.example.coinranking_baris.api.CoinService
+import com.example.coinranking_baris.api.CoinsService
 import com.example.coinranking_baris.api.Service
 import com.example.coinranking_baris.model.History
-import com.example.coinranking_baris.model.HistoryX
 
 class CoinsHistoryRepository {
-    private var historyService: CoinService = Service.getCoinService()
+    private var historyService: CoinsService = Service.getCoinsService()
 
     suspend fun getAllHistoryCoins():History{
         try {
