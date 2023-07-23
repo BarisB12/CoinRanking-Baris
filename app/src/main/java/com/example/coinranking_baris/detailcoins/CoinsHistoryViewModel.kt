@@ -21,7 +21,7 @@ class CoinsHistoryViewModel : ViewModel() {
         viewModelScope.launch(exceptionHandler) {
             try {
                 val historyList = coinsHistoryRepository.getAllHistoryCoins()
-                _historyCoins.value = historyList.data.history
+                    _historyCoins.value = historyList.data.history
             } catch (e: Exception) {
                 println("Handle Exception $e")
             }
