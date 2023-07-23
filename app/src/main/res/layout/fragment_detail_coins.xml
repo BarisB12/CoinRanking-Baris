@@ -8,8 +8,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewDetail"
-        android:layout_width="match_parent"
-        android:layout_height="216dp"
+        android:layout_width="412dp"
+        android:layout_height="281dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/lineChart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -159,19 +161,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/bell" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewLineChart"
-        android:layout_width="408dp"
-        android:layout_height="513dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="2dp"
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lineChart"
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true"
+        android:layout_height="0dp"
+        android:layout_margin="20dp"
         android:layout_marginBottom="1dp"
-        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewDetail" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
