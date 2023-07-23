@@ -47,6 +47,7 @@ class CoinsDetailFragment : Fragment() {
 
         lineChart = binding.lineChart
 
+
         val detailPrice = "%.5f".format(Locale.ENGLISH, selectedCoin.price.toDouble())
         binding.textViewDetailPrice.text = "$${detailPrice}"
         binding.textMarketDetailCap.text = selectedCoin.change + "%"
@@ -104,48 +105,58 @@ class CoinsDetailFragment : Fragment() {
 
     private fun updateLineChart(historyList: List<HistoryX>) {
         val entries = ArrayList<Entry>()
+        var counter = 1f
+        val maxVisibleLabels = 6
+
+        val labelCount = minOf(historyList.size, maxVisibleLabels)
+        lineChart.xAxis.labelCount = labelCount
 
         for (data in historyList) {
             val price = data.price.toFloat()
-            val timestamp = data.timestamp.toFloat()
-            entries.add(Entry(timestamp, price))
+            entries.add(Entry(counter, price))
+            counter += 1f
         }
 
         val dataSet = LineDataSet(entries, "Price History")
-        dataSet.color = ColorTemplate.getHoloBlue()
-        dataSet.setDrawCircles(true)
-        dataSet.setDrawCircleHole(false)
-        dataSet.setCircleColor(Color.RED)
-        dataSet.circleRadius = 4f
+        dataSet.color = Color.BLUE
+        dataSet.setDrawCircles(false)
         dataSet.lineWidth = 2f
-        dataSet.setDrawValues(true)
-        dataSet.valueTextColor = Color.BLACK
-        dataSet.mode = LineDataSet.Mode.LINEAR
+        dataSet.setDrawFilled(true)
+        dataSet.fillColor = Color.BLUE
+        dataSet.fillAlpha = 70
+        dataSet.setDrawValues(false)
+        dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
 
         val lineDataSets = ArrayList<ILineDataSet>()
         lineDataSets.add(dataSet)
 
         val lineData = LineData(lineDataSets)
+        val xAxis: XAxis = lineChart.xAxis
+        xAxis.textSize = 8f
+
+        val yAxis: YAxis = lineChart.axisLeft
+        yAxis.textSize = 10f
 
         lineChart.data = lineData
         lineChart.xAxis.granularity = 2f
         lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        lineChart.animateXY(3000, 3000)
         lineChart.xAxis.setDrawGridLines(false)
-        lineChart.xAxis.labelCount = 2
         lineChart.xAxis.valueFormatter = object : ValueFormatter() {
             private val dateFormat = SimpleDateFormat("dd/MM HH:mm", Locale.ENGLISH)
             override fun getFormattedValue(value: Float): String {
-                val millis = (value * 1000L).toLong()
+                val millis = (historyList[value.toInt()].timestamp * 1000L)
                 return dateFormat.format(Date(millis))
             }
         }
         lineChart.invalidate()
         lineChart.axisRight.isEnabled = false
-        lineChart.xAxis.axisMaximum = entries.size.toFloat() - 1
+        lineChart.xAxis.axisMaximum = entries.size.toFloat()
         lineChart.extraRightOffset = 30f
 
         val yAxisLeft: YAxis = lineChart.axisLeft
         yAxisLeft.setDrawGridLines(true)
+
+        lineChart.description.isEnabled = false
+        lineChart.legend.isEnabled = false
     }
 }
