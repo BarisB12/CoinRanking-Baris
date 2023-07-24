@@ -15,6 +15,7 @@ import com.example.coinranking_baris.databinding.FragmentDetailCoinsBinding
 import com.example.coinranking_baris.detailcoins.CoinsDetailViewModel
 import com.example.coinranking_baris.model.Coin
 import com.example.coinranking_baris.model.HistoryX
+import com.example.coinranking_baris.utils.orZero
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -53,8 +54,8 @@ class CoinsDetailFragment : Fragment() {
         val sparklineCoin = selectedCoin.sparkline
 
         if (sparklineCoin.isNotEmpty()) {
-            val highPrice = sparklineCoin.maxOrNull() ?: 0.0
-            val lowPrice = sparklineCoin.minOrNull() ?: 0.0
+            val highPrice = sparklineCoin.maxOrNull() ?: 0.0.orZero()
+            val lowPrice = sparklineCoin.minOrNull() ?: 0.0.orZero()
             binding.textHighDetailPrice.text = "$highPrice"
             binding.textLowDetailPrice.text = "$lowPrice"
         }
@@ -76,11 +77,13 @@ class CoinsDetailFragment : Fragment() {
                 )
             )
         }
-
         viewModel.historyCoins.observe(viewLifecycleOwner) { historyList ->
-            viewModel.selectedCoin.value.let {
-                updateLineChart(historyList)
-            }
+            updateLineChart(historyList)
+        }
+
+        viewModel.selectedCoin.observe(viewLifecycleOwner) { selectedCoin ->
+            val historyList = selectedCoin as List<HistoryX>
+            updateLineChart(historyList)
         }
 
         binding.imageViewBell.setOnClickListener {
@@ -93,7 +96,6 @@ class CoinsDetailFragment : Fragment() {
             }
         }
 
-        binding.imageViewBack.isClickable
         binding.imageViewBack.setOnClickListener {
             Navigation.findNavController(binding.root).navigateUp()
         }
@@ -114,6 +116,7 @@ class CoinsDetailFragment : Fragment() {
             entries.add(Entry(counter, price))
             counter += 1f
         }
+
         val dataSet = LineDataSet(entries, "Price History")
         dataSet.color = Color.BLUE
         dataSet.setDrawCircles(false)
