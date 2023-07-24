@@ -5,12 +5,13 @@ import com.example.coinranking_baris.api.CoinsService
 import com.example.coinranking_baris.api.Service
 import com.example.coinranking_baris.model.History
 
-class CoinsHistoryRepository {
+class CoinsDetailRepository {
     private var historyService: CoinsService = Service.getCoinsService()
 
     suspend fun getAllHistoryCoins():History{
         try {
-            return historyService.getAllHistoryCoins()
+            val historyList = this.historyService.getAllHistoryCoins()
+            return historyList
 
         } catch (e: Exception) {
             Log.e("CoinsHistoryRepository", "getAllHistoryCoins: Error - ${e.message}", e)
