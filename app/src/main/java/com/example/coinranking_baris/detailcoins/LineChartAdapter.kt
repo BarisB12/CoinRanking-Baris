@@ -13,6 +13,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.utils.ColorTemplate
 
+/*
 class LineChartAdapter(private var historyList: List<HistoryX> = listOf()) : RecyclerView.Adapter<LineChartAdapter.HistoryCardHolder>() {
 
     inner class HistoryCardHolder(binding: FragmentDetailItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -69,4 +70,4 @@ class LineChartAdapter(private var historyList: List<HistoryX> = listOf()) : Rec
 
         notifyDataSetChanged()
     }
-}
+}*/

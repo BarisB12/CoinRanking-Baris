@@ -10,8 +10,7 @@ class CoinsHistoryRepository {
 
     suspend fun getAllHistoryCoins():History{
         try {
-            val historyList = this.historyService.getAllHistoryCoins()
-            return historyList
+            return historyService.getAllHistoryCoins()
 
         } catch (e: Exception) {
             Log.e("CoinsHistoryRepository", "getAllHistoryCoins: Error - ${e.message}", e)

@@ -12,9 +12,8 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.example.coinranking_baris.R
 import com.example.coinranking_baris.databinding.FragmentDetailCoinsBinding
-import com.example.coinranking_baris.detailcoins.CoinsHistoryViewModel
+import com.example.coinranking_baris.detailcoins.CoinsDetailViewModel
 import com.example.coinranking_baris.model.Coin
-import com.example.coinranking_baris.model.History
 import com.example.coinranking_baris.model.HistoryX
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -24,7 +23,6 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.github.mikephil.charting.utils.ColorTemplate
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,7 +30,7 @@ class CoinsDetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailCoinsBinding
     private val args by navArgs<CoinsDetailFragmentArgs>()
     private lateinit var lineChart: LineChart
-    private val viewModel: CoinsHistoryViewModel by viewModels()
+    private val viewModel: CoinsDetailViewModel by viewModels()
 
     private lateinit var selectedCoin: Coin
     private var isClicked = false
@@ -44,9 +42,7 @@ class CoinsDetailFragment : Fragment() {
     ): View {
         binding = FragmentDetailCoinsBinding.inflate(inflater, container, false)
         selectedCoin = args.coin
-
         lineChart = binding.lineChart
-
 
         val detailPrice = "%.5f".format(Locale.ENGLISH, selectedCoin.price.toDouble())
         binding.textViewDetailPrice.text = "$${detailPrice}"
@@ -82,7 +78,9 @@ class CoinsDetailFragment : Fragment() {
         }
 
         viewModel.historyCoins.observe(viewLifecycleOwner) { historyList ->
-            updateLineChart(historyList)
+            viewModel.selectedCoin.value.let {
+                updateLineChart(historyList)
+            }
         }
 
         binding.imageViewBell.setOnClickListener {
@@ -116,7 +114,6 @@ class CoinsDetailFragment : Fragment() {
             entries.add(Entry(counter, price))
             counter += 1f
         }
-
         val dataSet = LineDataSet(entries, "Price History")
         dataSet.color = Color.BLUE
         dataSet.setDrawCircles(false)
