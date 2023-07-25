@@ -1,7 +1,5 @@
     package com.example.coinranking_baris.ui
 
-    import android.content.Context
-    import android.content.SharedPreferences
     import android.os.Bundle
     import androidx.fragment.app.Fragment
     import android.view.LayoutInflater
@@ -20,7 +18,6 @@
     import com.example.coinranking_baris.coins.CoinsViewModel
     import com.example.coinranking_baris.databinding.FragmentCoinsBinding
     import com.example.coinranking_baris.sharedprefs.SharedPrefs
-    import com.google.android.material.behavior.SwipeDismissBehavior
 
     class CoinsFragment : Fragment() {
         private lateinit var binding: FragmentCoinsBinding
@@ -75,11 +72,12 @@
 
             viewModel.coinList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
-                swipeRefreshLayout.isRefreshing = false
             }
-
+            viewModel.uiState.observe(viewLifecycleOwner){
+                swipeRefreshLayout.isRefreshing = it
+            }
             swipeRefreshLayout.setOnRefreshListener {
-                viewModel.applySortOption(coinsSpinner.selectedItem as String)
+                viewModel.refresh(coinsSpinner.selectedItem as String)
             }
 
             coinsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -91,6 +89,7 @@
                 ) {
                     val selectedOption = parent?.getItemAtPosition(position) as String
                     viewModel.applySortOption(selectedOption)
+                    // get resources from R.array.sort_options and send the position
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
