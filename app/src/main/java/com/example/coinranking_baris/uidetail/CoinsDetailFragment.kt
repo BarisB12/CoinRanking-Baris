@@ -26,6 +26,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class CoinsDetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailCoinsBinding
@@ -85,7 +86,7 @@ class CoinsDetailFragment : Fragment() {
             val historyList = selectedCoin as List<HistoryX>
             updateLineChart(historyList)
         }
-
+        (viewModel.historyCoins.value)
         binding.imageViewBell.setOnClickListener {
             isClicked = !isClicked
 
@@ -116,7 +117,6 @@ class CoinsDetailFragment : Fragment() {
             entries.add(Entry(counter, price))
             counter += 1f
         }
-
         val dataSet = LineDataSet(entries, "Price History")
         dataSet.color = Color.BLUE
         dataSet.setDrawCircles(false)
@@ -131,16 +131,19 @@ class CoinsDetailFragment : Fragment() {
         lineDataSets.add(dataSet)
 
         val lineData = LineData(lineDataSets)
+
         val xAxis: XAxis = lineChart.xAxis
         xAxis.textSize = 8f
-
+        xAxis.enableGridDashedLine(8f, 8f, 0f)
+        xAxis.gridColor = Color.GRAY
+        xAxis.gridLineWidth = 1f
         val yAxis: YAxis = lineChart.axisLeft
         yAxis.textSize = 10f
 
         lineChart.data = lineData
         lineChart.xAxis.granularity = 2f
         lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        lineChart.xAxis.setDrawGridLines(false)
+        lineChart.xAxis.setDrawGridLines(true)
         lineChart.xAxis.valueFormatter = object : ValueFormatter() {
             private val dateFormat = SimpleDateFormat("dd/MM HH:mm", Locale.ENGLISH)
             override fun getFormattedValue(value: Float): String {

@@ -1,5 +1,7 @@
     package com.example.coinranking_baris.ui
 
+    import android.content.Context
+    import android.content.SharedPreferences
     import android.os.Bundle
     import androidx.fragment.app.Fragment
     import android.view.LayoutInflater
@@ -8,8 +10,8 @@
     import android.widget.AdapterView
     import android.widget.ArrayAdapter
     import android.widget.Spinner
+    import androidx.appcompat.app.AppCompatDelegate
     import androidx.fragment.app.viewModels
-    import androidx.lifecycle.viewModelScope
     import androidx.recyclerview.widget.LinearLayoutManager
     import androidx.recyclerview.widget.RecyclerView
     import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -17,6 +19,7 @@
     import com.example.coinranking_baris.coins.CoinsAdapter
     import com.example.coinranking_baris.coins.CoinsViewModel
     import com.example.coinranking_baris.databinding.FragmentCoinsBinding
+    import com.example.coinranking_baris.sharedprefs.SharedPrefs
     import com.google.android.material.behavior.SwipeDismissBehavior
 
     class CoinsFragment : Fragment() {
@@ -39,9 +42,23 @@
             recyclerView.adapter = adapter
             coinsSpinner = binding.coinsSpinner
             swipeRefreshLayout = binding.swipeRefreshLayout
+            val isNightModeEnabled = SharedPrefs.getNightMode()
 
-            swipeRefreshLayout.setOnRefreshListener {
-                viewModel.applySortOption(coinsSpinner.selectedItem as String)
+            binding.switch1.setOnCheckedChangeListener { _, isChecked ->
+                if (!isChecked){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    SharedPrefs.dayColorMode()
+                }else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    SharedPrefs.nightColorMode()
+                }
+            }
+
+            binding.switch1.isChecked = isNightModeEnabled
+            if (isNightModeEnabled) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
 
             val layoutManager = LinearLayoutManager(requireContext())
@@ -57,11 +74,14 @@
             }
 
             viewModel.coinList.observe(viewLifecycleOwner) {
-
                 adapter.submitList(it)
                 swipeRefreshLayout.isRefreshing = false
-
             }
+
+            swipeRefreshLayout.setOnRefreshListener {
+                viewModel.applySortOption(coinsSpinner.selectedItem as String)
+            }
+
             coinsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
