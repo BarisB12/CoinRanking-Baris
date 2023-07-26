@@ -17,6 +17,7 @@
     import com.example.coinranking_baris.coins.CoinsViewModel
     import com.example.coinranking_baris.databinding.FragmentCoinsBinding
     import com.example.coinranking_baris.sharedprefs.SharedPrefs
+    import com.facebook.shimmer.ShimmerFrameLayout
 
     class CoinsFragment : Fragment() {
         private lateinit var binding: FragmentCoinsBinding
@@ -24,6 +25,7 @@
         private lateinit var recyclerView: RecyclerView
         private lateinit var coinsSpinner: Spinner
         private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+        private lateinit var shimmerView: ShimmerFrameLayout
         private val viewModel: CoinsViewModel by viewModels()
 
         override fun onCreateView(
@@ -38,6 +40,8 @@
             recyclerView.adapter = adapter
             coinsSpinner = binding.coinsSpinner
             swipeRefreshLayout = binding.swipeRefreshLayout
+            shimmerView = binding.shimmerView
+
             val isNightModeEnabled = SharedPrefs.getNightMode()
 
             binding.switch1.setOnCheckedChangeListener { _, isChecked ->
@@ -71,6 +75,13 @@
             viewModel.coinList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
             }
+            viewModel.uiState.observe(viewLifecycleOwner) {isLoading ->
+                if (isLoading) {
+                    onStart()
+                } else {
+                    onStop()
+                }
+            }
 
             viewModel.uiState.observe(viewLifecycleOwner){
                 swipeRefreshLayout.isRefreshing = it
@@ -98,5 +109,13 @@
                 }
             }
             return binding.root
+        }
+        override fun onStart() {
+            super.onStart()
+            binding.shimmerView.startShimmer()
+        }
+        override fun onStop() {
+            binding.shimmerView.stopShimmer()
+            super.onStop()
         }
     }

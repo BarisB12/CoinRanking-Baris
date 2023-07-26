@@ -25,23 +25,24 @@ class CoinsViewModel: ViewModel() {
     }
 
     private fun callApi(finishAction: () -> Unit) {
+        _uiState.value = true
+
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
             println("Handle Exception $throwable")
         }
         viewModelScope.launch(exceptionHandler) {
             try {
-
-                Log.i("CALL","coins CALL initiated")
+                Log.i("CALL", "coins CALL initiated")
                 val coins = coinRepository.getAllCoins()
                 coins.let {
                     _coinList.value = coins.data.coin
                 }
                 finishAction()
-                Log.i("CALL","coins GOT")
-                _uiState.value = false
+                Log.i("CALL", "coins GOT")
             } catch (e: Exception) {
-                _uiState.value = false
                 println("Handle Exception $e")
+            } finally {
+                _uiState.value = false
             }
         }
     }
