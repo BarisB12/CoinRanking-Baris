@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="price_high_to_low" type="id"/>
+    <item name="price_low_to_high" type="id"/>
+    <item name="change_high_to_low" type="id"/>
+    <item name="change_low_to_high" type="id"/>
+</resources>
