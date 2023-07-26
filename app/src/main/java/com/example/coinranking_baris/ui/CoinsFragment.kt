@@ -13,7 +13,6 @@
     import androidx.recyclerview.widget.LinearLayoutManager
     import androidx.recyclerview.widget.RecyclerView
     import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    import com.example.coinranking_baris.R
     import com.example.coinranking_baris.coins.CoinsAdapter
     import com.example.coinranking_baris.coins.CoinsViewModel
     import com.example.coinranking_baris.databinding.FragmentCoinsBinding
@@ -61,23 +60,26 @@
             val layoutManager = LinearLayoutManager(requireContext())
             recyclerView.layoutManager = layoutManager
 
-            ArrayAdapter.createFromResource(
+            val sortOptionsAdapter = ArrayAdapter(
                 coinsSpinner.context,
-                R.array.sort_options,
-                android.R.layout.simple_spinner_item
-            ).also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                coinsSpinner.adapter = adapter
-            }
+                android.R.layout.simple_spinner_item,
+                CoinsViewModel.SORT_OPTIONS
+            )
+            sortOptionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            coinsSpinner.adapter = sortOptionsAdapter
 
             viewModel.coinList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
             }
+
             viewModel.uiState.observe(viewLifecycleOwner){
                 swipeRefreshLayout.isRefreshing = it
             }
+
             swipeRefreshLayout.setOnRefreshListener {
-                viewModel.refresh(coinsSpinner.selectedItem as Int)
+                val selectedOptionId = CoinsViewModel.SORT_OPTIONS[coinsSpinner.selectedItemPosition]
+                viewModel.refresh(selectedOptionId)
+                swipeRefreshLayout.isRefreshing = false
             }
 
             coinsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -91,6 +93,7 @@
                     viewModel.applySortOption(selectedOption)
                     // get resources from R.array.sort_options and send the position
                 }
+
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
             }
