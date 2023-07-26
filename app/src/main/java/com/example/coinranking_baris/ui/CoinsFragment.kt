@@ -77,7 +77,7 @@
                 swipeRefreshLayout.isRefreshing = it
             }
             swipeRefreshLayout.setOnRefreshListener {
-                viewModel.refresh(coinsSpinner.selectedItem as String)
+                viewModel.refresh(coinsSpinner.selectedItem as Int)
             }
 
             coinsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -87,7 +87,7 @@
                     position: Int,
                     id: Long
                 ) {
-                    val selectedOption = parent?.getItemAtPosition(position) as String
+                    val selectedOption = CoinsViewModel.SORT_OPTIONS[position]
                     viewModel.applySortOption(selectedOption)
                     // get resources from R.array.sort_options and send the position
                 }

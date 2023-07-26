@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.coinranking_baris.R
 import com.example.coinranking_baris.model.Coin
 import com.example.coinranking_baris.repository.CoinsRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -48,21 +49,21 @@ class CoinsViewModel: ViewModel() {
     /**
      * refreshes the page list content
      * */
-    fun refresh(sortOption: String) {
+    fun refresh(sortOption: Int) {
         callApi{applySortOption(sortOption)}
     }
 
-    fun applySortOption(sortOption: String) {
-        Log.i("CALL","applySortOption")
-        _selectedSortOption.value = sortOption
+    fun applySortOption(selectedOptionId: Int) {
+        Log.i("CALL", "applySortOption")
+        _selectedSortOption.value = selectedOptionId.toString()
 
         val currentCoinList = _coinList.value
         if (currentCoinList != null) {
-            val sortedList = when (sortOption) {
-                "Price - High to Low" -> currentCoinList.sortedByDescending { it.price.toDoubleOrNull() }
-                "Price - Low to High" -> currentCoinList.sortedBy { it.price.toDoubleOrNull() }
-                "Change - High to Low" -> currentCoinList.sortedByDescending { it.change.toDoubleOrNull() }
-                "Change - Low to High" -> currentCoinList.sortedBy { it.change.toDoubleOrNull() }
+            val sortedList = when (selectedOptionId) {
+                SORT_OPTIONS[0] -> currentCoinList.sortedByDescending { it.price.toDoubleOrNull() }
+                SORT_OPTIONS[1] -> currentCoinList.sortedBy { it.price.toDoubleOrNull() }
+                SORT_OPTIONS[2] -> currentCoinList.sortedByDescending { it.change.toDoubleOrNull() }
+                SORT_OPTIONS[3] -> currentCoinList.sortedBy { it.change.toDoubleOrNull() }
                 else -> currentCoinList
             }
             _coinList.value = sortedList
@@ -70,6 +71,11 @@ class CoinsViewModel: ViewModel() {
     }
 
     companion object {
-        val SORT_OPTIONS = listOf("1","2")
+        val SORT_OPTIONS = listOf(
+            R.id.price_high_to_low,
+            R.id.price_low_to_high,
+            R.id.change_high_to_low,
+            R.id.change_low_to_high
+        )
     }
 }
