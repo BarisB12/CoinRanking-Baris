@@ -4,4 +4,5 @@
     <item name="price_low_to_high" type="id"/>
     <item name="change_high_to_low" type="id"/>
     <item name="change_low_to_high" type="id"/>
+
 </resources>
