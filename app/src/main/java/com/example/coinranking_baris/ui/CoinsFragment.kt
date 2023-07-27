@@ -15,7 +15,6 @@
     import androidx.recyclerview.widget.LinearLayoutManager
     import androidx.recyclerview.widget.RecyclerView
     import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    import com.example.coinranking_baris.R
     import com.example.coinranking_baris.coins.CoinsAdapter
     import com.example.coinranking_baris.coins.CoinsViewModel
     import com.example.coinranking_baris.databinding.FragmentCoinsBinding
@@ -38,22 +37,20 @@
             container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View {
-
             binding = FragmentCoinsBinding.inflate(inflater)
             recyclerView = binding.recyclerView
             adapter = CoinsAdapter()
             recyclerView.adapter = adapter
             coinsSpinner = binding.coinsSpinner
             swipeRefreshLayout = binding.swipeRefreshLayout
-            shimmerView = binding.shimmerView
 
             val isNightModeEnabled = SharedPrefs.getNightMode()
 
             binding.switch1.setOnCheckedChangeListener { _, isChecked ->
-                if (!isChecked){
+                if (!isChecked) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     SharedPrefs.dayColorMode()
-                }else{
+                } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                     SharedPrefs.nightColorMode()
                 }
@@ -66,70 +63,39 @@
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
 
+            val sortOptionIds = CoinsViewModel.SORT_OPTIONS
+            val sortOptions = sortOptionIds.map { getString(it) }
+
+            val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, sortOptions)
+            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            coinsSpinner.adapter = spinnerAdapter
+
             val layoutManager = LinearLayoutManager(requireContext())
             recyclerView.layoutManager = layoutManager
 
-            val sortOptionsArray = resources.getStringArray(R.array.sort_option)
-            val sortOptionsAdapter = ArrayAdapter(
-                coinsSpinner.context,
-                android.R.layout.simple_spinner_item,
-                sortOptionsArray
-            )
-            sortOptionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            coinsSpinner.adapter = sortOptionsAdapter
-
-            viewModel.coinList.observe(viewLifecycleOwner) {
-                adapter.submitList(it)
+            viewModel.coinList.observe(viewLifecycleOwner) { coinList ->
+                adapter.submitList(coinList)
             }
 
-            viewModel.uiState.observe(viewLifecycleOwner) {
-                swipeRefreshLayout.isRefreshing = it
-                shimmerView.startShimmer()
-                shimmerView.visibility = View.VISIBLE
-
-                recyclerView.visibility = View.GONE
-
-                if (!it) {
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        delay(3000)
-                        shimmerView.stopShimmer()
-                        shimmerView.visibility = View.GONE
-                        recyclerView.visibility = View.VISIBLE
-                    }
-                }
+            viewModel.uiState.observe(viewLifecycleOwner) { isLoading ->
+                swipeRefreshLayout.isRefreshing = isLoading
             }
 
             swipeRefreshLayout.setOnRefreshListener {
                 val selectedOptionId = CoinsViewModel.SORT_OPTIONS[coinsSpinner.selectedItemPosition]
                 viewModel.refresh(selectedOptionId)
-                swipeRefreshLayout.isRefreshing = false
             }
 
             coinsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     val selectedOption = CoinsViewModel.SORT_OPTIONS[position]
                     viewModel.applySortOption(selectedOption)
-                    // get resources from R.array.sort_options and send the position
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
             }
-            return binding.root
-        }
-        private fun startShimmer() {
-            shimmerView.visibility = View.VISIBLE
-            shimmerView.startShimmer()
-            recyclerView.visibility = View.VISIBLE
-        }
 
-        private fun stopShimmer() {
-            shimmerView.stopShimmer()
-            shimmerView.visibility = View.GONE
+            return binding.root
         }
     }

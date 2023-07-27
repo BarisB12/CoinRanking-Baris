@@ -1,5 +1,6 @@
 package com.example.coinranking_baris.coins
 
+import android.provider.Settings.Secure.getString
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -73,10 +74,10 @@ class CoinsViewModel: ViewModel() {
 
     companion object {
         val SORT_OPTIONS = listOf(
-            R.id.price_high_to_low,
-            R.id.price_low_to_high,
-            R.id.change_high_to_low,
-            R.id.change_low_to_high
+            R.string.price_high_to_low_label,
+            R.string.price_low_to_high_label,
+            R.string.change_high_to_low_label,
+            R.string.change_low_to_high_label
         )
     }
 }
