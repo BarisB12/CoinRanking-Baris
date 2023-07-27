@@ -1,6 +1,7 @@
     package com.example.coinranking_baris.ui
 
     import android.os.Bundle
+    import android.os.Handler
     import androidx.fragment.app.Fragment
     import android.view.LayoutInflater
     import android.view.View
@@ -10,14 +11,18 @@
     import android.widget.Spinner
     import androidx.appcompat.app.AppCompatDelegate
     import androidx.fragment.app.viewModels
+    import androidx.lifecycle.lifecycleScope
     import androidx.recyclerview.widget.LinearLayoutManager
     import androidx.recyclerview.widget.RecyclerView
     import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    import com.example.coinranking_baris.R
     import com.example.coinranking_baris.coins.CoinsAdapter
     import com.example.coinranking_baris.coins.CoinsViewModel
     import com.example.coinranking_baris.databinding.FragmentCoinsBinding
     import com.example.coinranking_baris.sharedprefs.SharedPrefs
     import com.facebook.shimmer.ShimmerFrameLayout
+    import kotlinx.coroutines.delay
+    import kotlinx.coroutines.launch
 
     class CoinsFragment : Fragment() {
         private lateinit var binding: FragmentCoinsBinding
@@ -64,10 +69,11 @@
             val layoutManager = LinearLayoutManager(requireContext())
             recyclerView.layoutManager = layoutManager
 
+            val sortOptionsArray = resources.getStringArray(R.array.sort_option)
             val sortOptionsAdapter = ArrayAdapter(
                 coinsSpinner.context,
                 android.R.layout.simple_spinner_item,
-                CoinsViewModel.SORT_OPTIONS
+                sortOptionsArray
             )
             sortOptionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             coinsSpinner.adapter = sortOptionsAdapter
@@ -75,16 +81,22 @@
             viewModel.coinList.observe(viewLifecycleOwner) {
                 adapter.submitList(it)
             }
-            viewModel.uiState.observe(viewLifecycleOwner) {isLoading ->
-                if (isLoading) {
-                    onStart()
-                } else {
-                    onStop()
-                }
-            }
 
-            viewModel.uiState.observe(viewLifecycleOwner){
+            viewModel.uiState.observe(viewLifecycleOwner) {
                 swipeRefreshLayout.isRefreshing = it
+                shimmerView.startShimmer()
+                shimmerView.visibility = View.VISIBLE
+
+                recyclerView.visibility = View.GONE
+
+                if (!it) {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        delay(3000)
+                        shimmerView.stopShimmer()
+                        shimmerView.visibility = View.GONE
+                        recyclerView.visibility = View.VISIBLE
+                    }
+                }
             }
 
             swipeRefreshLayout.setOnRefreshListener {
@@ -110,12 +122,14 @@
             }
             return binding.root
         }
-        override fun onStart() {
-            super.onStart()
-            binding.shimmerView.startShimmer()
+        private fun startShimmer() {
+            shimmerView.visibility = View.VISIBLE
+            shimmerView.startShimmer()
+            recyclerView.visibility = View.VISIBLE
         }
-        override fun onStop() {
-            binding.shimmerView.stopShimmer()
-            super.onStop()
+
+        private fun stopShimmer() {
+            shimmerView.stopShimmer()
+            shimmerView.visibility = View.GONE
         }
     }
