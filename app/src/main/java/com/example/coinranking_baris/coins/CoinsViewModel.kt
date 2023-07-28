@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 
 class CoinsViewModel: ViewModel() {
     private var coinRepository = CoinsRepository()
-    private val _selectedSortOption = MutableLiveData<String>()
 
     private var _coinList = MutableLiveData<List<Coin>>()
     val coinList: LiveData<List<Coin>> = _coinList
@@ -34,7 +33,10 @@ class CoinsViewModel: ViewModel() {
         viewModelScope.launch(exceptionHandler) {
             try {
                 Log.i("CALL", "coins CALL initiated")
-                val coins = coinRepository.getAllCoins()
+
+                val selectedOption = SORT_OPTIONS.toString()
+
+                val coins = coinRepository.getCoinsWithSortOption(selectedOption)
                 coins.let {
                     _coinList.value = coins.data.coin
                 }
@@ -57,7 +59,6 @@ class CoinsViewModel: ViewModel() {
 
     fun applySortOption(selectedOptionId: Int) {
         Log.i("CALL", "applySortOption")
-        _selectedSortOption.value = selectedOptionId.toString()
 
         val currentCoinList = _coinList.value
         if (currentCoinList != null) {
