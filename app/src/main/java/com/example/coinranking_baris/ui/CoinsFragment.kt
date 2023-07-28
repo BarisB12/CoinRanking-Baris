@@ -43,6 +43,7 @@
             recyclerView.adapter = adapter
             coinsSpinner = binding.coinsSpinner
             swipeRefreshLayout = binding.swipeRefreshLayout
+            shimmerView = binding.shimmerView
 
             val isNightModeEnabled = SharedPrefs.getNightMode()
 
@@ -79,6 +80,19 @@
 
             viewModel.uiState.observe(viewLifecycleOwner) { isLoading ->
                 swipeRefreshLayout.isRefreshing = isLoading
+                shimmerView.startShimmer()
+                shimmerView.visibility = View.VISIBLE
+
+                recyclerView.visibility = View.GONE
+
+                if (!isLoading) {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        delay(2500)
+                        shimmerView.stopShimmer()
+                        shimmerView.visibility = View.GONE
+                        recyclerView.visibility = View.VISIBLE
+                    }
+                }
             }
 
             swipeRefreshLayout.setOnRefreshListener {
