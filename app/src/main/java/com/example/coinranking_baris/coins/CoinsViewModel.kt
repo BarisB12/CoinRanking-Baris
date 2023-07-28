@@ -57,7 +57,7 @@ class CoinsViewModel: ViewModel() {
         callApi{applySortOption(sortOption)}
     }
 
-    fun applySortOption(selectedOptionId: Int) {
+    private fun applySortOption(selectedOptionId: Int) {
         Log.i("CALL", "applySortOption")
 
         val currentCoinList = _coinList.value

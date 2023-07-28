@@ -88,8 +88,9 @@
 
             coinsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
                     val selectedOption = CoinsViewModel.SORT_OPTIONS[position]
-                    viewModel.applySortOption(selectedOption)
+                    viewModel.refresh(selectedOption)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
