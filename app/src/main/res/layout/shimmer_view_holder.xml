@@ -19,14 +19,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/shimmer_placeholder">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textViewCoin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Coin"
                 android:background="@color/shimmer_placeholder"
                 android:textColor="@color/black"
                 android:textSize="12sp"
@@ -44,7 +42,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:layout_marginEnd="16dp"
-                android:text="price"
                 android:background="@color/shimmer_placeholder"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +53,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:text="MarketCap"
                 android:background="@color/shimmer_placeholder"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +64,6 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="15dp"
-                android:src="@drawable/round"
                 android:background="@color/shimmer_placeholder"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -82,7 +77,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="12dp"
-                android:text="Name"
                 android:background="@color/shimmer_placeholder"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
