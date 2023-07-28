@@ -11,7 +11,7 @@ class CoinsRepository(
     suspend fun getAllCoins(): Coins {
         return this.service.getAllCoins()
         }
-    suspend fun getCoinsWithSortOption(sort: String): Coins {
-        return this.service.getCoins(sort)
+    suspend fun getCoinsWithSortOption(sortOption: String): Coins {
+        return this.service.getCoins(sortOption)
     }
 }
