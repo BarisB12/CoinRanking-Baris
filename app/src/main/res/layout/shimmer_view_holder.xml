@@ -11,23 +11,25 @@
         android:layout_height="0dp"
         android:layout_margin="5dp"
         app:cardCornerRadius="15dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@+id/textViewCoin"
+            app:layout_constraintTop_toTopOf="@+id/textViewCoin">
 
             <TextView
                 android:id="@+id/textViewCoin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:background="@color/shimmer_placeholder"
-                android:textColor="@color/black"
-                android:textSize="12sp"
+                android:text="Coin"
+                android:textColor="@color/shimmer_placeholder"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -40,25 +42,14 @@
                 android:id="@+id/textPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:layout_marginEnd="16dp"
                 android:background="@color/shimmer_placeholder"
+                android:text="price"
+                android:textColor="@color/shimmer_placeholder"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.262" />
-
-            <ImageView
-                android:id="@+id/buttonRound"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="15dp"
-                android:background="@color/gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_bias="0.1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5" />
 
             <TextView
                 android:id="@+id/textMarketCap"
@@ -66,10 +57,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:background="@color/shimmer_placeholder"
+                android:text="MarketCap"
+                android:textColor="@color/shimmer_placeholder"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.803" />
+
+            <ImageView
+                android:id="@+id/buttonRound"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/round"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
 
             <TextView
                 android:id="@+id/textViewSymbol"
@@ -78,12 +83,14 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="12dp"
                 android:background="@color/shimmer_placeholder"
+                android:text="Name"
+                android:textColor="@color/shimmer_placeholder"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.141"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
