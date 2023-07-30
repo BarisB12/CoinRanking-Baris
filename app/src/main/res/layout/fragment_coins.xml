@@ -36,40 +36,52 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewDetailPrice">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.facebook.shimmer.ShimmerFrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/shimmer_view"
-            android:orientation="horizontal">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switch1">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/item_view"
+                android:layout_width="match_parent"
+                android:layout_height="653dp"
                 android:orientation="vertical">
 
                 <include layout="@layout/shimmer_view_holder" />
 
                 <include layout="@layout/shimmer_view_holder" />
-            <include layout="@layout/shimmer_view_holder" />
-            <include layout="@layout/shimmer_view_holder" />
-            <include layout="@layout/shimmer_view_holder" />
-            <include layout="@layout/shimmer_view_holder" />
-            <include layout="@layout/shimmer_view_holder" />
-            <include layout="@layout/shimmer_view_holder" />
-            <include layout="@layout/shimmer_view_holder" />
+
+                <include layout="@layout/shimmer_view_holder" />
+
+                <include layout="@layout/shimmer_view_holder" />
+
+                <include layout="@layout/shimmer_view_holder" />
+
+                <include layout="@layout/shimmer_view_holder" />
+
+                <include layout="@layout/shimmer_view_holder" />
+
+                <include layout="@layout/shimmer_view_holder" />
+
+                <include layout="@layout/shimmer_view_holder" />
             </LinearLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -78,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="8dp"
             android:text="Ranking List"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -87,10 +99,10 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewSpinner"
-            android:layout_width="155dp"
-            android:layout_height="29dp"
-            android:layout_margin="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="6dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="4dp"
@@ -98,15 +110,15 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="165dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <Spinner
                     android:id="@+id/coinsSpinner"
-                    android:layout_width="151dp"
-                    android:layout_height="27dp"
+                    android:layout_width="127dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="7dp"
-                    android:layout_marginEnd="7dp"
+                    android:layout_marginEnd="2dp"
                     android:layout_marginBottom="1dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -122,13 +134,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="17dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
-            android:layout_marginBottom="2dp"
             android:text="Light / Dark"
             android:textColor="@color/black"
             android:textSize="10sp"
-            app:layout_constraintBottom_toTopOf="@+id/swipeRefreshLayout"
             app:layout_constraintEnd_toStartOf="@+id/cardViewSpinner"
             app:layout_constraintStart_toEndOf="@+id/rankingList"
             app:layout_constraintTop_toTopOf="parent"
