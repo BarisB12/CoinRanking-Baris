@@ -28,15 +28,15 @@
                 android:layout_height="wrap_content"
 
                 android:background="@color/shimmer_placeholder"
-                android:text="Coin"
+                android:text="CoinPrice"
                 android:textColor="@color/shimmer_placeholder"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.137"
+                app:layout_constraintHorizontal_bias="0.126"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.718" />
+                app:layout_constraintVertical_bias="0.803" />
 
             <TextView
                 android:id="@+id/textPrice"
@@ -80,10 +80,10 @@
                 android:id="@+id/textViewSymbol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="14dp"
                 android:layout_marginBottom="12dp"
                 android:background="@color/shimmer_placeholder"
-                android:text="Name"
+                android:text="NameCoinPrice"
                 android:textColor="@color/shimmer_placeholder"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
