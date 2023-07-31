@@ -11,7 +11,8 @@ interface CoinsService {
 
     @GET("v2/coins")
     suspend fun getCoins(
-        @Query("sort") sort: String
+        @Query("orderBy") sort: String, // can be one of "price" "marketCap" "24hVolume" "change" "listedAt",
+        @Query("orderDirection") orderDirection: String // can be one of "desc" "asc"
     ): Coins
 
     @GET("v2/coin/Qwsogvtv82FCd/history")

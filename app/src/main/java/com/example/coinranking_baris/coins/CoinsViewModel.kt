@@ -1,6 +1,5 @@
 package com.example.coinranking_baris.coins
 
-import android.provider.Settings.Secure.getString
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +11,7 @@ import com.example.coinranking_baris.repository.CoinsRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
-class CoinsViewModel: ViewModel() {
+class CoinsViewModel : ViewModel() {
     private var coinRepository = CoinsRepository()
 
     private var _coinList = MutableLiveData<List<Coin>>()
@@ -20,11 +19,12 @@ class CoinsViewModel: ViewModel() {
 
     private var _uiState = MutableLiveData(true)
     val uiState: LiveData<Boolean> = _uiState
+
     init {
-        callApi {  }
+        callApi({})
     }
 
-    private fun callApi(finishAction: () -> Unit) {
+    private fun callApi(finishAction: () -> Unit, sortOption: SortOption? = null) {
         _uiState.value = true
 
         val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -34,9 +34,10 @@ class CoinsViewModel: ViewModel() {
             try {
                 Log.i("CALL", "coins CALL initiated")
 
-                val selectedOption = SORT_OPTIONS.toString()
-
-                val coins = coinRepository.getCoinsWithSortOption(selectedOption)
+                val coins = coinRepository.getCoinsWithSortOption(
+                    sortOption?.sortType,
+                    sortOption?.sortDirection
+                )
                 coins.let {
                     _coinList.value = coins.data.coin
                 }
@@ -53,8 +54,8 @@ class CoinsViewModel: ViewModel() {
     /**
      * refreshes the page list content
      * */
-    fun refresh(sortOption: Int) {
-        callApi{applySortOption(sortOption)}
+    fun refresh(sortOption: SortOption?) {
+        callApi({}, sortOption)
     }
 
     private fun applySortOption(selectedOptionId: Int) {
@@ -80,5 +81,13 @@ class CoinsViewModel: ViewModel() {
             R.string.change_high_to_low_label,
             R.string.change_low_to_high_label
         )
+        val SORT_OPTS = listOf(
+            SortOption("price", "desc"),
+            SortOption("price", "asc"),
+            SortOption("change", "desc"),
+            SortOption("change", "asc")
+        )
     }
+
+    data class SortOption(val sortType: String, val sortDirection: String)
 }

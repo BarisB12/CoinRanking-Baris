@@ -1,7 +1,6 @@
     package com.example.coinranking_baris.ui
 
     import android.os.Bundle
-    import android.os.Handler
     import androidx.fragment.app.Fragment
     import android.view.LayoutInflater
     import android.view.View
@@ -80,7 +79,7 @@
 
             viewModel.uiState.observe(viewLifecycleOwner) { isLoading ->
                 swipeRefreshLayout.isRefreshing = isLoading
-                shimmerView.startShimmer()
+                shimmerView.startShimmer() // todo shimmer burdan çıkarılsın. ekran ilk açıldığında sadece ilk datayı yüklerken oynasın. ilk requestin cevabı gelince dursun. sonra bir daha oynamasın.
                 shimmerView.visibility = View.VISIBLE
 
                 recyclerView.visibility = View.GONE
@@ -96,14 +95,13 @@
             }
 
             swipeRefreshLayout.setOnRefreshListener {
-                val selectedOptionId = CoinsViewModel.SORT_OPTIONS[coinsSpinner.selectedItemPosition]
-                viewModel.refresh(selectedOptionId)
+                viewModel.refresh(null)// todo  şu an bu metod sayfayı baştan default value ile çiziyor. spinnerdan halihazırda seçilmiş olna ile refresh yapılsın.
             }
 
             coinsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
-                    val selectedOption = CoinsViewModel.SORT_OPTIONS[position]
+                    val selectedOption = CoinsViewModel.SORT_OPTS[position]
                     viewModel.refresh(selectedOption)
                 }
 
