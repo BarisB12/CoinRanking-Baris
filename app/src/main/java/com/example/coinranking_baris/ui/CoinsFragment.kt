@@ -79,23 +79,20 @@
 
             viewModel.uiState.observe(viewLifecycleOwner) { isLoading ->
                 swipeRefreshLayout.isRefreshing = isLoading
-                shimmerView.startShimmer() // todo shimmer burdan çıkarılsın. ekran ilk açıldığında sadece ilk datayı yüklerken oynasın. ilk requestin cevabı gelince dursun. sonra bir daha oynamasın.
-                shimmerView.visibility = View.VISIBLE
 
-                recyclerView.visibility = View.GONE
-
-                if (!isLoading) {
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        delay(2500)
-                        shimmerView.stopShimmer()
-                        shimmerView.visibility = View.GONE
-                        recyclerView.visibility = View.VISIBLE
-                    }
-                }
             }
 
             swipeRefreshLayout.setOnRefreshListener {
                 viewModel.refresh(null)// todo  şu an bu metod sayfayı baştan default value ile çiziyor. spinnerdan halihazırda seçilmiş olna ile refresh yapılsın.
+            }
+
+            viewModel.coinList.observe(viewLifecycleOwner) { coinList ->
+                if (coinList.isNotEmpty()) {
+                    shimmerView.stopShimmer()
+                    shimmerView.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                }
+                adapter.submitList(coinList)
             }
 
             coinsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
