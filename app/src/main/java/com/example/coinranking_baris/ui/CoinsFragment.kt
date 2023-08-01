@@ -73,17 +73,14 @@
             val layoutManager = LinearLayoutManager(requireContext())
             recyclerView.layoutManager = layoutManager
 
-            viewModel.coinList.observe(viewLifecycleOwner) { coinList ->
-                adapter.submitList(coinList)
-            }
-
             viewModel.uiState.observe(viewLifecycleOwner) { isLoading ->
                 swipeRefreshLayout.isRefreshing = isLoading
 
             }
 
             swipeRefreshLayout.setOnRefreshListener {
-                viewModel.refresh(null)// todo  şu an bu metod sayfayı baştan default value ile çiziyor. spinnerdan halihazırda seçilmiş olna ile refresh yapılsın.
+                val selectedOptions = CoinsViewModel.SORT_OPTS[coinsSpinner.selectedItemPosition]
+                viewModel.refresh(selectedOptions)
             }
 
             viewModel.coinList.observe(viewLifecycleOwner) { coinList ->
