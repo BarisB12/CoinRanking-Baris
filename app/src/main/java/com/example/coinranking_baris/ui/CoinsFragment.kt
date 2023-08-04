@@ -31,7 +31,6 @@
         private lateinit var shimmerView: ShimmerFrameLayout
         private lateinit var progressBar: ProgressBar
         private val viewModel: CoinsViewModel by viewModels()
-        private var currentPage = 1
 
         override fun onCreateView(
             inflater: LayoutInflater,
@@ -112,6 +111,22 @@
                         Handler(Looper.getMainLooper()).postDelayed({
                             progressBar.visibility = View.GONE
                         }, 2000)
+                    }
+
+                    coinsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+
+                            val selectedOption = CoinsViewModel.SORT_OPTS[position]
+                            viewModel.refresh(selectedOption)
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                        }
                     }
                 }
             })
