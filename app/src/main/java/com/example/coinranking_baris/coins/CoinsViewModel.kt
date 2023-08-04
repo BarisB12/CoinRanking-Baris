@@ -13,13 +13,19 @@ import kotlinx.coroutines.launch
 
 class CoinsViewModel : ViewModel() {
     private var coinRepository = CoinsRepository()
-
+    private val coinsCache = mutableListOf<Coin>()
     private var _coinList = MutableLiveData<List<Coin>>()
     val coinList: LiveData<List<Coin>> = _coinList
+    private val initialItemsPerPage = 25
+    private val additionalItemsPerPage = 25
 
     private var _uiState = MutableLiveData(true)
     val uiState: LiveData<Boolean> = _uiState
 
+    private var itemsPerPage = initialItemsPerPage
+    private var currentPage = 1
+    var isLoading = false
+    private var isLastPage = false
     init {
         callApi({})
     }
@@ -87,6 +93,32 @@ class CoinsViewModel : ViewModel() {
             SortOption("change", "desc"),
             SortOption("change", "asc")
         )
+    }
+    fun loadNextPage() {
+        if (isLoading || isLastPage) return
+
+        isLoading = true
+
+        viewModelScope.launch {
+            try {
+                val coins = coinRepository.getAllCoins(currentPage, itemsPerPage)
+                val newCoinList = coins.data.coin
+                
+                coinsCache.addAll(newCoinList)
+                val endIndex = coinsCache.size / 2
+                _coinList.value = coinsCache.subList(0, endIndex)
+
+                val nextPage = currentPage + 1
+                currentPage = nextPage
+
+                if (newCoinList.size < itemsPerPage) {
+                    isLastPage = true
+                }
+            } catch (e: Exception) {
+            } finally {
+                isLoading = false
+            }
+        }
     }
 
     data class SortOption(val sortType: String, val sortDirection: String)

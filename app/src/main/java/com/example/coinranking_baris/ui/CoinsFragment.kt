@@ -1,16 +1,18 @@
     package com.example.coinranking_baris.ui
 
     import android.os.Bundle
+    import android.os.Handler
+    import android.os.Looper
     import androidx.fragment.app.Fragment
     import android.view.LayoutInflater
     import android.view.View
     import android.view.ViewGroup
     import android.widget.AdapterView
     import android.widget.ArrayAdapter
+    import android.widget.ProgressBar
     import android.widget.Spinner
     import androidx.appcompat.app.AppCompatDelegate
     import androidx.fragment.app.viewModels
-    import androidx.lifecycle.lifecycleScope
     import androidx.recyclerview.widget.LinearLayoutManager
     import androidx.recyclerview.widget.RecyclerView
     import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -19,8 +21,6 @@
     import com.example.coinranking_baris.databinding.FragmentCoinsBinding
     import com.example.coinranking_baris.sharedprefs.SharedPrefs
     import com.facebook.shimmer.ShimmerFrameLayout
-    import kotlinx.coroutines.delay
-    import kotlinx.coroutines.launch
 
     class CoinsFragment : Fragment() {
         private lateinit var binding: FragmentCoinsBinding
@@ -29,7 +29,9 @@
         private lateinit var coinsSpinner: Spinner
         private lateinit var swipeRefreshLayout: SwipeRefreshLayout
         private lateinit var shimmerView: ShimmerFrameLayout
+        private lateinit var progressBar: ProgressBar
         private val viewModel: CoinsViewModel by viewModels()
+        private var currentPage = 1
 
         override fun onCreateView(
             inflater: LayoutInflater,
@@ -43,6 +45,7 @@
             coinsSpinner = binding.coinsSpinner
             swipeRefreshLayout = binding.swipeRefreshLayout
             shimmerView = binding.shimmerView
+            progressBar = binding.progressBar
 
             val isNightModeEnabled = SharedPrefs.getNightMode()
 
@@ -92,17 +95,26 @@
                 adapter.submitList(coinList)
             }
 
-            coinsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            var isLoadingSecondHalf = false
+            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
 
-                    val selectedOption = CoinsViewModel.SORT_OPTS[position]
-                    viewModel.refresh(selectedOption)
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+                    val itemCount = layoutManager.itemCount
+
+                    if (!isLoadingSecondHalf && lastVisibleItemPosition >= itemCount / 2) {
+                        isLoadingSecondHalf = true
+                        viewModel.loadNextPage()
+                        progressBar.visibility = View.VISIBLE
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            progressBar.visibility = View.GONE
+                        }, 2000)
+                    }
                 }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-            }
-
+            })
             return binding.root
         }
     }
