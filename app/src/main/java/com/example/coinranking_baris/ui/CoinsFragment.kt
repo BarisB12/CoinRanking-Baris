@@ -1,8 +1,6 @@
     package com.example.coinranking_baris.ui
 
     import android.os.Bundle
-    import android.os.Handler
-    import android.os.Looper
     import androidx.fragment.app.Fragment
     import android.view.LayoutInflater
     import android.view.View
@@ -29,7 +27,6 @@
         private lateinit var coinsSpinner: Spinner
         private lateinit var swipeRefreshLayout: SwipeRefreshLayout
         private lateinit var shimmerView: ShimmerFrameLayout
-        private lateinit var progressBar: ProgressBar
         private val viewModel: CoinsViewModel by viewModels()
 
         override fun onCreateView(
@@ -44,7 +41,6 @@
             coinsSpinner = binding.coinsSpinner
             swipeRefreshLayout = binding.swipeRefreshLayout
             shimmerView = binding.shimmerView
-            progressBar = binding.progressBar
 
             val isNightModeEnabled = SharedPrefs.getNightMode()
 
@@ -99,18 +95,12 @@
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
 
-                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
                     val itemCount = layoutManager.itemCount
 
                     if (!isLoadingSecondHalf && lastVisibleItemPosition >= itemCount / 2) {
                         isLoadingSecondHalf = true
                         viewModel.loadNextPage()
-                        progressBar.visibility = View.VISIBLE
-
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            progressBar.visibility = View.GONE
-                        }, 2000)
                     }
 
                     coinsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

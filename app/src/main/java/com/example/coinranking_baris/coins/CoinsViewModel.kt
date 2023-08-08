@@ -17,15 +17,15 @@ class CoinsViewModel : ViewModel() {
     private var _coinList = MutableLiveData<List<Coin>>()
     val coinList: LiveData<List<Coin>> = _coinList
     private val initialItemsPerPage = 25
-    private val additionalItemsPerPage = 25
 
     private var _uiState = MutableLiveData(true)
     val uiState: LiveData<Boolean> = _uiState
 
-    private var itemsPerPage = initialItemsPerPage
+    private var itemsPerPage = initialItemsPerPage / 2
     private var currentPage = 1
     var isLoading = false
     private var isLastPage = false
+
     init {
         callApi({})
     }
@@ -103,7 +103,7 @@ class CoinsViewModel : ViewModel() {
             try {
                 val coins = coinRepository.getAllCoins(currentPage, itemsPerPage)
                 val newCoinList = coins.data.coin
-                
+
                 coinsCache.addAll(newCoinList)
                 val endIndex = coinsCache.size / 2
                 _coinList.value = coinsCache.subList(0, endIndex)
