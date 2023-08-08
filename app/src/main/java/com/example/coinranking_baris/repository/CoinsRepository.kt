@@ -8,7 +8,7 @@ import com.example.coinranking_baris.model.Coins
 class CoinsRepository(
     private var service: CoinsService = Service.getCoinsService()
 ) {
-    suspend fun getAllCoins(): Coins {
+    suspend fun getAllCoins(currentPage: Int, itemsPerPage: Int): Coins {
         return this.service.getAllCoins()
     }
 
