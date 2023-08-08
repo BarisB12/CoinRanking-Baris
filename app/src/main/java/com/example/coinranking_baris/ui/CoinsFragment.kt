@@ -1,5 +1,6 @@
     package com.example.coinranking_baris.ui
 
+    import android.annotation.SuppressLint
     import android.os.Bundle
     import androidx.fragment.app.Fragment
     import android.view.LayoutInflater
@@ -19,6 +20,7 @@
     import com.example.coinranking_baris.databinding.FragmentCoinsBinding
     import com.example.coinranking_baris.sharedprefs.SharedPrefs
     import com.facebook.shimmer.ShimmerFrameLayout
+
 
     class CoinsFragment : Fragment() {
         private lateinit var binding: FragmentCoinsBinding
@@ -75,15 +77,16 @@
 
             viewModel.uiState.observe(viewLifecycleOwner) { isLoading ->
                 swipeRefreshLayout.isRefreshing = isLoading
-
             }
 
             swipeRefreshLayout.setOnRefreshListener {
                 val selectedOptions = CoinsViewModel.SORT_OPTS[coinsSpinner.selectedItemPosition]
                 viewModel.refresh(selectedOptions)
             }
+
             viewModel.isLoadingPagination.observe(viewLifecycleOwner) { isLoadingPagination ->
                 progressBar.visibility = if (isLoadingPagination) View.VISIBLE else View.GONE
+                setRecyclerViewScrollEnabled(!isLoadingPagination) // RecyclerView dokunulabilirliğini etkinleştir veya devre dışı bırak
             }
 
             viewModel.coinList.observe(viewLifecycleOwner) { coinList ->
@@ -125,6 +128,14 @@
                     }
                 }
             })
+
             return binding.root
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        private fun setRecyclerViewScrollEnabled(isEnabled: Boolean) {
+            recyclerView.setOnTouchListener { _, event ->
+                return@setOnTouchListener !isEnabled
+            }
         }
     }

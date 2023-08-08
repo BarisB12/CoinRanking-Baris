@@ -109,8 +109,13 @@ class CoinsViewModel : ViewModel() {
                 val newCoinList = coins.data.coin
 
                 coinsCache.addAll(newCoinList)
+
                 val endIndex = coinsCache.size / 2
-                _coinList.value = coinsCache.subList(0, endIndex)
+                val visibleCoins = coinsCache.subList(0, endIndex)
+
+                val updatedList = _coinList.value?.toMutableList() ?: mutableListOf()
+                updatedList.addAll(visibleCoins)
+                _coinList.value = updatedList
 
                 val nextPage = currentPage + 1
                 currentPage = nextPage
@@ -119,6 +124,7 @@ class CoinsViewModel : ViewModel() {
                     isLastPage = true
                 }
             } catch (e: Exception) {
+                Log.e("LOAD_NEXT_PAGE", "Error loading next page: ${e.message}")
             } finally {
                 isLoading = false
                 _isLoadingPagination.value = false
