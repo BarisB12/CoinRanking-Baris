@@ -18,12 +18,15 @@ class CoinsViewModel : ViewModel() {
     val coinList: LiveData<List<Coin>> = _coinList
     private val initialItemsPerPage = 25
 
+    private var _isLoadingPagination = MutableLiveData(false)
+    val isLoadingPagination: LiveData<Boolean> = _isLoadingPagination
+
     private var _uiState = MutableLiveData(true)
     val uiState: LiveData<Boolean> = _uiState
 
     private var itemsPerPage = initialItemsPerPage / 2
     private var currentPage = 1
-    var isLoading = false
+    private var isLoading = false
     private var isLastPage = false
 
     init {
@@ -98,6 +101,7 @@ class CoinsViewModel : ViewModel() {
         if (isLoading || isLastPage) return
 
         isLoading = true
+        _isLoadingPagination.value = true
 
         viewModelScope.launch {
             try {
@@ -117,6 +121,7 @@ class CoinsViewModel : ViewModel() {
             } catch (e: Exception) {
             } finally {
                 isLoading = false
+                _isLoadingPagination.value = false
             }
         }
     }

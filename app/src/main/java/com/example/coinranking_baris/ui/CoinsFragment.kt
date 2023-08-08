@@ -27,6 +27,7 @@
         private lateinit var coinsSpinner: Spinner
         private lateinit var swipeRefreshLayout: SwipeRefreshLayout
         private lateinit var shimmerView: ShimmerFrameLayout
+        private lateinit var progressBar: ProgressBar
         private val viewModel: CoinsViewModel by viewModels()
 
         override fun onCreateView(
@@ -41,6 +42,7 @@
             coinsSpinner = binding.coinsSpinner
             swipeRefreshLayout = binding.swipeRefreshLayout
             shimmerView = binding.shimmerView
+            progressBar = binding.progressBar
 
             val isNightModeEnabled = SharedPrefs.getNightMode()
 
@@ -79,6 +81,9 @@
             swipeRefreshLayout.setOnRefreshListener {
                 val selectedOptions = CoinsViewModel.SORT_OPTS[coinsSpinner.selectedItemPosition]
                 viewModel.refresh(selectedOptions)
+            }
+            viewModel.isLoadingPagination.observe(viewLifecycleOwner) { isLoadingPagination ->
+                progressBar.visibility = if (isLoadingPagination) View.VISIBLE else View.GONE
             }
 
             viewModel.coinList.observe(viewLifecycleOwner) { coinList ->
