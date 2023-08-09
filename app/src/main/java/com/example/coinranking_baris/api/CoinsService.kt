@@ -18,8 +18,7 @@ interface CoinsService {
     @GET("v2/coin/Qwsogvtv82FCd/history")
     suspend fun getAllHistoryCoins(): History
 
-    @GET("v2/coins")
-    suspend fun getAllCoinsPerPage(
-        @Query("page") page: Int,
-        @Query("itemsPerPage") itemsPerPage: Int): Coins
+    @GET("v2/coin/:uuid")
+    suspend fun getAllDetailCoins(): Coins
+
 }
