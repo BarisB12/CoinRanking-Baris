@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/gray"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".uidetail.CoinsDetailFragment">
@@ -11,8 +10,7 @@
         android:id="@+id/cardViewDetail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/lineChart"
+        android:layout_marginBottom="168dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -27,73 +25,74 @@
                 android:id="@+id/textViewDetailPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginStart="128dp"
+                android:layout_marginBottom="147dp"
                 android:text="PRICE"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewDetailCurrent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/textMarketDetailCap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/detailButtonRound"
+                android:layout_width="35dp"
+                android:layout_height="31dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="4dp"
-                android:text="Market Cap"
-                android:textColor="@color/green"
-                android:textSize="18sp"
+                android:layout_marginTop="48dp"
+                android:src="@drawable/round"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewDetailPrice" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textViewDetailCurrent"
+                android:id="@+id/textViewRank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="96dp"
-                android:text="CURRENT PRICE"
-                android:textColor="@color/purple_700"
-                android:textSize="12sp"
+                android:layout_marginBottom="32dp"
+                android:text="Rank"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewHigh"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
                 app:layout_constraintVertical_chainStyle="spread_inside" />
 
             <TextView
                 android:id="@+id/textViewHigh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="108dp"
-                android:layout_marginEnd="1dp"
-                android:text="High:"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="20dp"
+                android:text="High"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/textHighDetailPrice"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/textViewLow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginBottom="40dp"
-                android:text="Low:"
+                android:layout_marginStart="20dp"
+                android:text="Low"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/textLowDetailPrice"
-                app:layout_constraintTop_toBottomOf="@+id/textViewHigh" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewBack"
+                app:layout_constraintVertical_bias="0.652" />
 
             <TextView
                 android:id="@+id/textHighDetailPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="74dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="57dp"
                 android:text="Price"
                 android:textColor="@color/green"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageViewBell" />
 
@@ -101,82 +100,125 @@
                 android:id="@+id/textLowDetailPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="20dp"
                 android:text="Low Price"
                 android:textColor="@color/red"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textHighDetailPrice" />
-
-            <TextView
-                android:id="@+id/textViewDetailSymbol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="140dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="140dp"
-                android:text="Symbol"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.506"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/textDetailName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="127dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="130dp"
                 android:text="Name"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.52"
+                app:layout_constraintHorizontal_bias="0.511"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewDetailSymbol" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageViewBack"
-                android:layout_width="30sp"
-                android:layout_height="30sp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
 
-                android:layout_marginStart="1dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="1dp"
-                android:layout_marginBottom="16dp"
-                app:layout_constraintBottom_toTopOf="@+id/textViewDetailCurrent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
                 app:srcCompat="@drawable/backspace_image" />
 
             <ImageView
                 android:id="@+id/imageViewBell"
                 android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_height="0dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="1dp"
+                android:layout_marginBottom="105dp"
+                app:layout_constraintBottom_toTopOf="@+id/textHighDetailPrice"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/bell" />
 
+            <TextView
+                android:id="@+id/textViewNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="284dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginEnd="23dp"
+                android:text="No"
+                android:textColor="@color/gold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/textViewRank"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewDetailChange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="27dp"
+                android:layout_marginEnd="164dp"
+                android:layout_marginBottom="147dp"
+                android:text="Change"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textViewDetailPrice"
+                app:layout_constraintTop_toBottomOf="@+id/textDetailName" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lineChart"
-        android:layout_width="match_parent"
-        android:fitsSystemWindows="true"
-        android:layout_height="0dp"
-        android:layout_margin="20dp"
-        android:layout_marginBottom="1dp"
+    <TextView
+        android:id="@+id/textViewVolume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="481dp"
+        android:text="24hVolume"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewDetail" />
+        app:layout_constraintTop_toBottomOf="@+id/cardViewDetail"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textViewHVolume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="320dp"
+        android:layout_marginBottom="481dp"
+        android:text="24hVolume"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewDetail"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="449dp"
+        android:text="Marketcap"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewMarketCap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="324dp"
+        android:layout_marginBottom="448dp"
+        android:text="Marketcap"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
