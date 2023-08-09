@@ -2,22 +2,17 @@ package com.example.coinranking_baris.detailcoins
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.coinranking_baris.api.CoinsService
 import com.example.coinranking_baris.model.Coin
-import com.example.coinranking_baris.model.HistoryX
 import com.example.coinranking_baris.repository.CoinsDetailRepository
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 
     class CoinsDetailViewModel : ViewModel() {
-        private val coinsHistoryRepository = CoinsDetailRepository()
-        private val _historyCoins = MutableLiveData<List<HistoryX>>()
-        private val _selectedCoin = MutableLiveData<Coin>()
-        val selectedCoin: LiveData<Coin> get() = _selectedCoin
-        val historyCoins: LiveData<List<HistoryX>> get() = _historyCoins
+        private val coinsDetailRepository = CoinsDetailRepository()
+        private val _detailCoins = MutableLiveData<List<Coin>>()
+        val detailCoins: LiveData<List<Coin>> get() = _detailCoins
 
         init {
             val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -25,8 +20,8 @@ import kotlinx.coroutines.launch
             }
             viewModelScope.launch(exceptionHandler) {
                 try {
-                    val historyList = coinsHistoryRepository.getAllHistoryCoins()
-                        _historyCoins.value = historyList.data.history
+                    val detailList = coinsDetailRepository.getAllDetailCoins()
+                    _detailCoins.value = detailList.data.coin
                 } catch (e: Exception) {
                     println("Handle Exception $e")
                 }

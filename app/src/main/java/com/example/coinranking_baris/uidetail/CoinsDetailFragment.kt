@@ -15,6 +15,7 @@ import com.example.coinranking_baris.databinding.FragmentDetailCoinsBinding
 import com.example.coinranking_baris.detailcoins.CoinsDetailViewModel
 import com.example.coinranking_baris.model.Coin
 import com.example.coinranking_baris.model.HistoryX
+import com.example.coinranking_baris.utils.loadImageFromUrl
 import com.example.coinranking_baris.utils.orZero
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -31,7 +32,6 @@ import kotlin.collections.ArrayList
 class CoinsDetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailCoinsBinding
     private val args by navArgs<CoinsDetailFragmentArgs>()
-    private lateinit var lineChart: LineChart
     private val viewModel: CoinsDetailViewModel by viewModels()
 
     private lateinit var selectedCoin: Coin
@@ -44,14 +44,15 @@ class CoinsDetailFragment : Fragment() {
     ): View {
         binding = FragmentDetailCoinsBinding.inflate(inflater, container, false)
         selectedCoin = args.coin
-        lineChart = binding.lineChart
 
-        val detailPrice = "%.5f".format(Locale.ENGLISH, selectedCoin.price.toDouble())
+        val detailPrice = "%.2f".format(Locale.ENGLISH, selectedCoin.price.toDouble())
         binding.textViewDetailPrice.text = "$${detailPrice}"
-        binding.textMarketDetailCap.text = selectedCoin.change + "%"
         binding.textDetailName.text = selectedCoin.name
-        binding.textViewDetailSymbol.text = selectedCoin.symbol
-
+        binding.textViewDetailChange.text = selectedCoin.change + "%"
+        binding.textViewNo.text = selectedCoin.rank.toString()
+        binding.textViewHVolume.text = selectedCoin.hVolume
+        binding.textViewMarketCap.text = selectedCoin.marketCap
+        binding.detailButtonRound.loadImageFromUrl(selectedCoin.iconUrl)
         val sparklineCoin = selectedCoin.sparkline
 
         if (sparklineCoin.isNotEmpty()) {
@@ -64,29 +65,22 @@ class CoinsDetailFragment : Fragment() {
         val changeCoin = selectedCoin.change.toDouble()
 
         if (changeCoin > 0) {
-            binding.textMarketDetailCap.setTextColor(
+            binding.textViewDetailChange.setTextColor(
                 ContextCompat.getColor(
                     binding.root.context,
                     R.color.green
                 )
             )
         } else {
-            binding.textMarketDetailCap.setTextColor(
+            binding.textViewDetailChange.setTextColor(
                 ContextCompat.getColor(
                     binding.root.context,
                     R.color.red
                 )
             )
         }
-        viewModel.historyCoins.observe(viewLifecycleOwner) { historyList ->
-            updateLineChart(historyList)
-        }
 
-        viewModel.selectedCoin.observe(viewLifecycleOwner) { selectedCoin ->
-            val historyList = selectedCoin as List<HistoryX>
-            updateLineChart(historyList)
-        }
-        (viewModel.historyCoins.value)
+        (viewModel.detailCoins.value)
         binding.imageViewBell.setOnClickListener {
             isClicked = !isClicked
 
@@ -102,64 +96,5 @@ class CoinsDetailFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    private fun updateLineChart(historyList: List<HistoryX>) {
-        val entries = ArrayList<Entry>()
-        var counter = 1f
-        val maxVisibleLabels = 6
-
-        val labelCount = minOf(historyList.size, maxVisibleLabels)
-        lineChart.xAxis.labelCount = labelCount
-
-        for (data in historyList) {
-            val price = data.price.toFloat()
-            entries.add(Entry(counter, price))
-            counter += 1f
-        }
-        val dataSet = LineDataSet(entries, "Price History")
-        dataSet.color = Color.BLUE
-        dataSet.setDrawCircles(false)
-        dataSet.lineWidth = 2f
-        dataSet.setDrawFilled(true)
-        dataSet.fillColor = Color.BLUE
-        dataSet.fillAlpha = 70
-        dataSet.setDrawValues(false)
-        dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
-
-        val lineDataSets = ArrayList<ILineDataSet>()
-        lineDataSets.add(dataSet)
-
-        val lineData = LineData(lineDataSets)
-
-        val xAxis: XAxis = lineChart.xAxis
-        xAxis.textSize = 8f
-        xAxis.enableGridDashedLine(8f, 8f, 0f)
-        xAxis.gridColor = Color.GRAY
-        xAxis.gridLineWidth = 1f
-        val yAxis: YAxis = lineChart.axisLeft
-        yAxis.textSize = 10f
-
-        lineChart.data = lineData
-        lineChart.xAxis.granularity = 2f
-        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        lineChart.xAxis.setDrawGridLines(true)
-        lineChart.xAxis.valueFormatter = object : ValueFormatter() {
-            private val dateFormat = SimpleDateFormat("dd/MM HH:mm", Locale.ENGLISH)
-            override fun getFormattedValue(value: Float): String {
-                val millis = (historyList[value.toInt()].timestamp * 1000L)
-                return dateFormat.format(Date(millis))
-            }
-        }
-        lineChart.invalidate()
-        lineChart.axisRight.isEnabled = false
-        lineChart.xAxis.axisMaximum = entries.size.toFloat()
-        lineChart.extraRightOffset = 30f
-
-        val yAxisLeft: YAxis = lineChart.axisLeft
-        yAxisLeft.setDrawGridLines(true)
-
-        lineChart.description.isEnabled = false
-        lineChart.legend.isEnabled = false
     }
 }
