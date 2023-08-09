@@ -135,15 +135,15 @@
 
             <ImageView
                 android:id="@+id/imageViewBell"
-                android:layout_width="35dp"
-                android:layout_height="0dp"
+                android:layout_width="32dp"
+                android:layout_height="26dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginEnd="1dp"
                 android:layout_marginBottom="105dp"
                 app:layout_constraintBottom_toTopOf="@+id/textHighDetailPrice"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/bell" />
+                app:srcCompat="@drawable/star" />
 
             <TextView
                 android:id="@+id/textViewNo"
