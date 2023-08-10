@@ -1,11 +1,13 @@
 package com.example.coinranking_baris.uidetail
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
  import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -14,20 +16,10 @@ import com.example.coinranking_baris.R
 import com.example.coinranking_baris.databinding.FragmentDetailCoinsBinding
 import com.example.coinranking_baris.detailcoins.CoinsDetailViewModel
 import com.example.coinranking_baris.model.Coin
-import com.example.coinranking_baris.model.HistoryX
+import com.example.coinranking_baris.sharedprefs.SharedPrefs
 import com.example.coinranking_baris.utils.loadImageFromUrl
 import com.example.coinranking_baris.utils.orZero
-import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.ValueFormatter
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class CoinsDetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailCoinsBinding
@@ -36,6 +28,19 @@ class CoinsDetailFragment : Fragment() {
 
     private lateinit var selectedCoin: Coin
     private var isClicked = false
+
+    private fun saveFavoriteStatus(isFavorite: Boolean) {
+        if (isFavorite) {
+            SharedPrefs.addFavoritedCoin(selectedCoin.name)
+        } else {
+            SharedPrefs.removeFavoritedCoin(selectedCoin.name)
+        }
+    }
+
+    private fun loadFavoriteStatus() {
+        val isFavorite = SharedPrefs.checkFavoritedCoin(selectedCoin.name)
+        setFavColor(isFavorite, binding.imageViewStar, requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,15 +85,13 @@ class CoinsDetailFragment : Fragment() {
             )
         }
 
-        (viewModel.detailCoins.value)
-        binding.imageViewBell.setOnClickListener {
-            isClicked = !isClicked
+        loadFavoriteStatus()
 
-            if (isClicked) {
-                binding.imageViewBell.setImageResource(R.drawable.bell_clicked)
-            } else {
-                binding.imageViewBell.setImageResource(R.drawable.bell)
-            }
+        (viewModel.detailCoins.value)
+        binding.imageViewStar.setOnClickListener {
+            val isFavorite = SharedPrefs.checkFavoritedCoin(selectedCoin.name)
+            saveFavoriteStatus(!isFavorite)
+            loadFavoriteStatus()
         }
 
         binding.imageViewBack.setOnClickListener {
@@ -96,5 +99,12 @@ class CoinsDetailFragment : Fragment() {
         }
 
         return binding.root
+    }
+    private fun setFavColor(isFavorite: Boolean, imageView: ImageView, context: Context) {
+        if (isFavorite) {
+            imageView.setColorFilter(ContextCompat.getColor(context, R.color.black))
+        } else {
+            imageView.setColorFilter(ContextCompat.getColor(context, R.color.gold))
+        }
     }
 }

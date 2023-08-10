@@ -39,7 +39,7 @@ class CoinsAdapter(
 
         item.textViewCoin.text = coin.name
         item.textViewSymbol.text = coin.symbol
-        val price = "%.5f".format(Locale.ENGLISH, coin.price.toDouble())
+        val price = "%.3f".format(Locale.ENGLISH, coin.price.toDouble())
         item.textPrice.text = "$$price"
         item.textMarketCap.text = coin.change+"%"
         item.buttonRound.loadImageFromUrl(coin.iconUrl)
