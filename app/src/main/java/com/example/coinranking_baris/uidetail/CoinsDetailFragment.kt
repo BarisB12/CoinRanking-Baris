@@ -46,6 +46,7 @@ class CoinsDetailFragment : Fragment() {
         binding.textViewHVolume.text = selectedCoin.hVolume
         binding.textViewMarketCap.text = selectedCoin.marketCap
         binding.detailButtonRound.loadImageFromUrl(selectedCoin.iconUrl)
+        binding.textViewUuid.text = selectedCoin.uuid
         val sparklineCoin = selectedCoin.sparkline
 
         if (sparklineCoin.isNotEmpty()) {
