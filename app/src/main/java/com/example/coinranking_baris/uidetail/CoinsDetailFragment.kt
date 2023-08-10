@@ -42,7 +42,7 @@ class CoinsDetailFragment : Fragment() {
         binding.textViewDetailPrice.text = "$${detailPrice}"
         binding.textDetailName.text = selectedCoin.name
         binding.textViewDetailChange.text = selectedCoin.change + "%"
-        binding.textViewNo.text = selectedCoin.rank.toString()
+        binding.textViewNo.text = "NO."+ selectedCoin.rank.toString()
         binding.textViewHVolume.text = selectedCoin.hVolume
         binding.textViewMarketCap.text = selectedCoin.marketCap
         binding.detailButtonRound.loadImageFromUrl(selectedCoin.iconUrl)

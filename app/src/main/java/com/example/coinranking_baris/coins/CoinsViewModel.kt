@@ -108,8 +108,6 @@ class CoinsViewModel : ViewModel() {
                 val coins = coinRepository.getAllCoins(currentPage, itemsPerPage)
                 val newCoinList = coins.data.coin
 
-                coinsCache.addAll(newCoinList)
-
                 val endIndex = coinsCache.size / 2
                 val visibleCoins = coinsCache.subList(0, endIndex)
 
