@@ -27,20 +27,8 @@ class CoinsDetailFragment : Fragment() {
     private val viewModel: CoinsDetailViewModel by viewModels()
 
     private lateinit var selectedCoin: Coin
-    private var isClicked = false
 
-    private fun saveFavoriteStatus(isFavorite: Boolean) {
-        if (isFavorite) {
-            SharedPrefs.addFavoritedCoin(selectedCoin.name)
-        } else {
-            SharedPrefs.removeFavoritedCoin(selectedCoin.name)
-        }
-    }
-
-    private fun loadFavoriteStatus() {
-        val isFavorite = SharedPrefs.checkFavoritedCoin(selectedCoin.name)
-        setFavColor(isFavorite, binding.imageViewStar, requireContext())
-    }
+    private var isFavorite: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,10 +72,8 @@ class CoinsDetailFragment : Fragment() {
                 )
             )
         }
-
         loadFavoriteStatus()
-
-        (viewModel.detailCoins.value)
+        viewModel.detailCoins.value
         binding.imageViewStar.setOnClickListener {
             val isFavorite = SharedPrefs.checkFavoritedCoin(selectedCoin.name)
             saveFavoriteStatus(!isFavorite)
@@ -100,11 +86,25 @@ class CoinsDetailFragment : Fragment() {
 
         return binding.root
     }
+
+    private fun loadFavoriteStatus() {
+        val isFavorite = SharedPrefs.checkFavoritedCoin(selectedCoin.name)
+        setFavColor(isFavorite, binding.imageViewStar, requireContext())
+    }
+
+    private fun saveFavoriteStatus(isFavorite: Boolean) {
+        if (isFavorite) {
+            SharedPrefs.addFavoritedCoin(selectedCoin.name)
+        } else {
+            SharedPrefs.removeFavoritedCoin(selectedCoin.name)
+        }
+    }
+
     private fun setFavColor(isFavorite: Boolean, imageView: ImageView, context: Context) {
         if (isFavorite) {
-            imageView.setColorFilter(ContextCompat.getColor(context, R.color.black))
-        } else {
             imageView.setColorFilter(ContextCompat.getColor(context, R.color.gold))
+        } else {
+            imageView.setColorFilter(ContextCompat.getColor(context, R.color.black))
         }
     }
 }
