@@ -67,22 +67,6 @@ class CoinsViewModel : ViewModel() {
         callApi({}, sortOption)
     }
 
-    private fun applySortOption(selectedOptionId: Int) {
-        Log.i("CALL", "applySortOption")
-
-        val currentCoinList = _coinList.value
-        if (currentCoinList != null) {
-            val sortedList = when (selectedOptionId) {
-                SORT_OPTIONS[0] -> currentCoinList.sortedByDescending { it.price.toDoubleOrNull() }
-                SORT_OPTIONS[1] -> currentCoinList.sortedBy { it.price.toDoubleOrNull() }
-                SORT_OPTIONS[2] -> currentCoinList.sortedByDescending { it.change.toDoubleOrNull() }
-                SORT_OPTIONS[3] -> currentCoinList.sortedBy { it.change.toDoubleOrNull() }
-                else -> currentCoinList
-            }
-            _coinList.value = sortedList
-        }
-    }
-
     companion object {
         val SORT_OPTIONS = listOf(
             R.string.price_high_to_low_label,
