@@ -134,7 +134,7 @@
                 app:srcCompat="@drawable/backspace_image" />
 
             <ImageView
-                android:id="@+id/imageViewBell"
+                android:id="@+id/imageViewStar"
                 android:layout_width="32dp"
                 android:layout_height="26dp"
                 android:layout_marginTop="1dp"
@@ -150,12 +150,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="284dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="96dp"
                 android:layout_marginEnd="23dp"
                 android:text="No"
                 android:textColor="@color/gold"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.857"
                 app:layout_constraintStart_toEndOf="@+id/textViewRank"
                 app:layout_constraintTop_toTopOf="parent" />
 
