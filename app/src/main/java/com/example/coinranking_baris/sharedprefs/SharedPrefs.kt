@@ -25,4 +25,23 @@ object SharedPrefs {
     fun getNightMode(): Boolean {
         return preferences.getBoolean("night", false)
     }
+    fun addFavoritedCoin(coinName: String) {
+        val favoritedCoins = getFavoritedCoins().toMutableSet()
+        favoritedCoins.add(coinName)
+        preferences.edit().putStringSet("favoritedCoins", favoritedCoins).apply()
+    }
+
+    fun removeFavoritedCoin(coinName: String) {
+        val favoritedCoins = getFavoritedCoins().toMutableSet()
+        favoritedCoins.remove(coinName)
+        preferences.edit().putStringSet("favoritedCoins", favoritedCoins).apply()
+    }
+
+    fun checkFavoritedCoin(coinName: String): Boolean {
+        return getFavoritedCoins().contains(coinName)
+    }
+
+    fun getFavoritedCoins(): Set<String> {
+        return preferences.getStringSet("favoritedCoins", emptySet()) ?: emptySet()
+    }
 }
