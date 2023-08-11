@@ -1,8 +1,9 @@
 package com.example.coinranking_baris.api
 
+import android.telecom.Call
 import com.example.coinranking_baris.model.*
-import okhttp3.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CoinsService {
@@ -20,5 +21,8 @@ interface CoinsService {
 
     @GET("v2/coin/:uuid")
     suspend fun getAllDetailCoins(): Coins
+
+    @GET("v2/coin/{uuid}")
+    suspend fun getCoinDetail(@Path("uuid") uuid: String): CoinDetailResponse
 
 }
