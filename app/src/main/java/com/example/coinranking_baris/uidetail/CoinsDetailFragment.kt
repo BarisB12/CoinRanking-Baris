@@ -29,6 +29,11 @@ class CoinsDetailFragment : Fragment() {
     private lateinit var selectedCoin: Coin
 
     private var isFavorite: Boolean = false
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.getDetail(selectedCoin.uuid)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,7 +80,10 @@ class CoinsDetailFragment : Fragment() {
             )
         }
         loadFavoriteStatus()
-        viewModel.detailCoins.value
+        viewModel.coinDetailLiveData.observe(viewLifecycleOwner) {
+
+        }
+
         binding.imageViewStar.setOnClickListener {
             val isFavorite = SharedPrefs.checkFavoritedCoin(selectedCoin.name)
             saveFavoriteStatus(!isFavorite)
