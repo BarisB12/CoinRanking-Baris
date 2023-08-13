@@ -1,7 +1,7 @@
 package com.example.coinranking_baris.uidetail
 
 import android.content.Context
-import android.graphics.Color
+import androidx.lifecycle.Observer
 import android.os.Bundle
  import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,9 +16,9 @@ import com.example.coinranking_baris.R
 import com.example.coinranking_baris.databinding.FragmentDetailCoinsBinding
 import com.example.coinranking_baris.detailcoins.CoinsDetailViewModel
 import com.example.coinranking_baris.model.Coin
+import com.example.coinranking_baris.model.CoinDetailResponse
 import com.example.coinranking_baris.sharedprefs.SharedPrefs
 import com.example.coinranking_baris.utils.loadImageFromUrl
-import com.example.coinranking_baris.utils.orZero
 import java.util.*
 
 class CoinsDetailFragment : Fragment() {
@@ -28,11 +28,15 @@ class CoinsDetailFragment : Fragment() {
 
     private lateinit var selectedCoin: Coin
 
-    private var isFavorite: Boolean = false
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getDetail(selectedCoin.uuid)
+        viewModel.getDetail(args.coin.uuid)
 
+        viewModel.coinDetailLiveData.observe(viewLifecycleOwner, Observer { coinDetail ->
+            coinDetail?.let {
+                bindCoinDetail(coinDetail)
+            }
+        })
     }
 
     override fun onCreateView(
@@ -43,46 +47,6 @@ class CoinsDetailFragment : Fragment() {
         binding = FragmentDetailCoinsBinding.inflate(inflater, container, false)
         selectedCoin = args.coin
 
-        val detailPrice = "%.2f".format(Locale.ENGLISH, selectedCoin.price.toDouble())
-        binding.textViewDetailPrice.text = "$${detailPrice}"
-        binding.textDetailName.text = selectedCoin.name
-        binding.textViewDetailChange.text = selectedCoin.change + "%"
-        binding.textViewNo.text = "NO."+ selectedCoin.rank.toString()
-        binding.textViewHVolume.text = selectedCoin.hVolume
-        binding.textViewMarketCap.text = selectedCoin.marketCap
-        binding.detailButtonRound.loadImageFromUrl(selectedCoin.iconUrl)
-        binding.textViewSymbol.text = selectedCoin.symbol
-        binding.textViewUuid.text = selectedCoin.uuid
-        val sparklineCoin = selectedCoin.sparkline
-
-        if (sparklineCoin.isNotEmpty()) {
-            val highPrice = sparklineCoin.maxOrNull() ?: 0.0.orZero()
-            val lowPrice = sparklineCoin.minOrNull() ?: 0.0.orZero()
-            binding.textHighDetailPrice.text = "$highPrice"
-            binding.textLowDetailPrice.text = "$lowPrice"
-        }
-
-        val changeCoin = selectedCoin.change.toDouble()
-
-        if (changeCoin > 0) {
-            binding.textViewDetailChange.setTextColor(
-                ContextCompat.getColor(
-                    binding.root.context,
-                    R.color.green
-                )
-            )
-        } else {
-            binding.textViewDetailChange.setTextColor(
-                ContextCompat.getColor(
-                    binding.root.context,
-                    R.color.red
-                )
-            )
-        }
-        loadFavoriteStatus()
-        viewModel.coinDetailLiveData.observe(viewLifecycleOwner) {
-
-        }
 
         binding.imageViewStar.setOnClickListener {
             val isFavorite = SharedPrefs.checkFavoritedCoin(selectedCoin.name)
@@ -115,6 +79,27 @@ class CoinsDetailFragment : Fragment() {
             imageView.setColorFilter(ContextCompat.getColor(context, R.color.gold))
         } else {
             imageView.setColorFilter(ContextCompat.getColor(context, R.color.black))
+        }
+    }
+
+    private fun bindCoinDetail(coinDetail: CoinDetailResponse.Data.CoinDetail) {
+        val detailPrice = coinDetail.price?.let { "%.2f".format(Locale.ENGLISH, it.toDouble()) }
+        binding.textViewDetailPrice.text = "$${detailPrice}"
+        binding.textDetailName.text = coinDetail.name
+        binding.textViewDetailChange.text = coinDetail.change + "%"
+        binding.textViewNo.text = "NO."+ coinDetail.rank.toString()
+        binding.textViewHVolume.text = coinDetail.hVolume
+        binding.textViewMarketCap.text = coinDetail.marketCap
+        coinDetail.iconUrl?.let { binding.detailButtonRound.loadImageFromUrl(it) }
+        binding.textViewSymbol.text = coinDetail.symbol
+        binding.textViewUuid.text = coinDetail.uuid
+
+        val sparklineCoin = selectedCoin.sparkline
+        if (sparklineCoin.isNotEmpty()) {
+            val highPrice = sparklineCoin.maxOrNull() ?: 0.0
+            val lowPrice = sparklineCoin.minOrNull() ?: 0.0
+            binding.textHighDetailPrice.text = "$highPrice"
+            binding.textLowDetailPrice.text = "$lowPrice"
         }
     }
 }
