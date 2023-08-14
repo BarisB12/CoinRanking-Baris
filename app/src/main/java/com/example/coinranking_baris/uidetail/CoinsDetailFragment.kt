@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.coinranking_baris.R
 import com.example.coinranking_baris.databinding.FragmentDetailCoinsBinding
 import com.example.coinranking_baris.detailcoins.CoinsDetailViewModel
@@ -23,6 +24,7 @@ import java.util.*
 
 class CoinsDetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailCoinsBinding
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val args by navArgs<CoinsDetailFragmentArgs>()
     private val viewModel: CoinsDetailViewModel by viewModels()
 
@@ -46,6 +48,7 @@ class CoinsDetailFragment : Fragment() {
     ): View {
         binding = FragmentDetailCoinsBinding.inflate(inflater, container, false)
         selectedCoin = args.coin
+        swipeRefreshLayout = binding.swipeRefreshLayout
 
         binding.imageViewBack.setOnClickListener {
             Navigation.findNavController(binding.root).navigateUp()
@@ -91,6 +94,11 @@ class CoinsDetailFragment : Fragment() {
                 setFavColor(updatedIsFavorite, binding.imageViewStar, requireContext())
                 saveFavoriteStatus(updatedIsFavorite)
             }
+        }
+        swipeRefreshLayout = binding.swipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.getDetail(args.coin.uuid)
+            swipeRefreshLayout.isRefreshing = false
         }
 
         val sparklineCoin = selectedCoin.sparkline
