@@ -47,23 +47,11 @@ class CoinsDetailFragment : Fragment() {
         binding = FragmentDetailCoinsBinding.inflate(inflater, container, false)
         selectedCoin = args.coin
 
-
-        binding.imageViewStar.setOnClickListener {
-            val isFavorite = SharedPrefs.checkFavoritedCoin(selectedCoin.name)
-            saveFavoriteStatus(!isFavorite)
-            loadFavoriteStatus()
-        }
-
         binding.imageViewBack.setOnClickListener {
             Navigation.findNavController(binding.root).navigateUp()
         }
 
         return binding.root
-    }
-
-    private fun loadFavoriteStatus() {
-        val isFavorite = SharedPrefs.checkFavoritedCoin(selectedCoin.name)
-        setFavColor(isFavorite, binding.imageViewStar, requireContext())
     }
 
     private fun saveFavoriteStatus(isFavorite: Boolean) {
@@ -87,12 +75,23 @@ class CoinsDetailFragment : Fragment() {
         binding.textViewDetailPrice.text = "$${detailPrice}"
         binding.textDetailName.text = coinDetail.name
         binding.textViewDetailChange.text = coinDetail.change + "%"
-        binding.textViewNo.text = "NO."+ coinDetail.rank.toString()
+        binding.textViewNo.text = "NO." + coinDetail.rank.toString()
         binding.textViewHVolume.text = coinDetail.hVolume
         binding.textViewMarketCap.text = coinDetail.marketCap
         coinDetail.iconUrl?.let { binding.detailButtonRound.loadImageFromUrl(it) }
         binding.textViewSymbol.text = coinDetail.symbol
         binding.textViewUuid.text = coinDetail.uuid
+
+        val isFavorite = coinDetail.name?.let { SharedPrefs.checkFavoritedCoin(it) }
+        if (isFavorite != null) {
+            setFavColor(isFavorite, binding.imageViewStar, requireContext())
+
+            binding.imageViewStar.setOnClickListener {
+                val updatedIsFavorite = !isFavorite
+                setFavColor(updatedIsFavorite, binding.imageViewStar, requireContext())
+                saveFavoriteStatus(updatedIsFavorite)
+            }
+        }
 
         val sparklineCoin = selectedCoin.sparkline
         if (sparklineCoin.isNotEmpty()) {
@@ -100,6 +99,7 @@ class CoinsDetailFragment : Fragment() {
             val lowPrice = sparklineCoin.minOrNull() ?: 0.0
             binding.textHighDetailPrice.text = "$highPrice"
             binding.textLowDetailPrice.text = "$lowPrice"
+
         }
     }
 }
