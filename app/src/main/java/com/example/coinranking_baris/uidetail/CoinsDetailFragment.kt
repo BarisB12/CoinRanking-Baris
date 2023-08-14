@@ -101,6 +101,7 @@ class CoinsDetailFragment : Fragment() {
             swipeRefreshLayout.isRefreshing = false
         }
 
+
         val sparklineCoin = selectedCoin.sparkline
         if (sparklineCoin.isNotEmpty()) {
             val highPrice = sparklineCoin.maxOrNull() ?: 0.0
@@ -108,6 +109,26 @@ class CoinsDetailFragment : Fragment() {
             binding.textHighDetailPrice.text = "$highPrice"
             binding.textLowDetailPrice.text = "$lowPrice"
 
+        }
+
+        val changeCoin = coinDetail.change?.toDouble()
+
+        if (changeCoin != null) {
+            if (changeCoin > 0) {
+                binding.textViewDetailChange.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.green
+                    )
+                )
+            } else {
+                binding.textViewDetailChange.setTextColor(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        R.color.red
+                    )
+                )
+            }
         }
     }
 }
