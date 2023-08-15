@@ -14,6 +14,7 @@ data class CoinDetailResponse(
         val coin: CoinDetail?
     ) {
         data class CoinDetail(
+            var isFav: Boolean = false,
             @SerializedName("allTimeHigh")
             val allTimeHigh: AllTimeHigh?,
             @SerializedName("btcPrice")
