@@ -33,10 +33,14 @@ class CoinsDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getDetail(args.coin.uuid)
+        binding.detailShimmerLayout.startShimmer()
 
         viewModel.coinDetailLiveData.observe(viewLifecycleOwner, Observer { coinDetail ->
             coinDetail?.let {
                 bindCoinDetail(coinDetail)
+                binding.detailShimmerLayout.stopShimmer()
+                binding.detailShimmerLayout.visibility = View.GONE
+                binding.cardViewDetail.visibility = View.VISIBLE
             }
         })
     }
@@ -85,14 +89,20 @@ class CoinsDetailFragment : Fragment() {
         binding.textViewSymbol.text = coinDetail.symbol
         binding.textViewUuid.text = coinDetail.uuid
 
-        val isFavorite = coinDetail.name?.let { SharedPrefs.checkFavoritedCoin(it) }
+        val isFavorite = coinDetail.isFav
+//            coinDetail.name?.let {
+//            SharedPrefs.checkFavoritedCoin(it)
+//        }
         if (isFavorite != null) {
             setFavColor(isFavorite, binding.imageViewStar, requireContext())
 
             binding.imageViewStar.setOnClickListener {
-                val updatedIsFavorite = !isFavorite
-                setFavColor(updatedIsFavorite, binding.imageViewStar, requireContext())
-                saveFavoriteStatus(updatedIsFavorite)
+                val isFavorite = coinDetail.name?.let { SharedPrefs.checkFavoritedCoin(it) }
+                if (isFavorite != null) {
+                    val updatedIsFavorite = !isFavorite
+                    setFavColor(updatedIsFavorite, binding.imageViewStar, requireContext())
+                    saveFavoriteStatus(updatedIsFavorite)
+                }
             }
         }
         swipeRefreshLayout = binding.swipeRefreshLayout
@@ -100,7 +110,6 @@ class CoinsDetailFragment : Fragment() {
             viewModel.getDetail(args.coin.uuid)
             swipeRefreshLayout.isRefreshing = false
         }
-
 
         val sparklineCoin = selectedCoin.sparkline
         if (sparklineCoin.isNotEmpty()) {
