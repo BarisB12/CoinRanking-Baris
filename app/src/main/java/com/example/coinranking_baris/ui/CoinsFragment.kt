@@ -21,7 +21,6 @@
     import com.example.coinranking_baris.sharedprefs.SharedPrefs
     import com.facebook.shimmer.ShimmerFrameLayout
 
-
     class CoinsFragment : Fragment() {
         private lateinit var binding: FragmentCoinsBinding
         private lateinit var adapter: CoinsAdapter
