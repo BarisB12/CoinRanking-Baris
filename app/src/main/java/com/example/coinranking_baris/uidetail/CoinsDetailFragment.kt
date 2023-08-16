@@ -77,17 +77,39 @@ class CoinsDetailFragment : Fragment() {
         }
     }
 
+    private fun formatLargeNumber(number: Double): String {
+        val units = arrayOf("K", "M", "B", "T")
+        var formattedNumber = number
+        var unitIndex = 0
+
+        while (formattedNumber >= 1000 && unitIndex < units.size - 1) {
+            formattedNumber /= 1000
+            unitIndex++
+        }
+
+        return "%.2f %s".format(Locale.ENGLISH, formattedNumber, units[unitIndex])
+    }
+
     private fun bindCoinDetail(coinDetail: CoinDetailResponse.Data.CoinDetail) {
         val detailPrice = coinDetail.price?.let { "%.2f".format(Locale.ENGLISH, it.toDouble()) }
         binding.textViewDetailPrice.text = "$${detailPrice}"
         binding.textDetailName.text = coinDetail.name
         binding.textViewDetailChange.text = coinDetail.change + "%"
         binding.textViewNo.text = "NO." + coinDetail.rank.toString()
-        binding.textViewHVolume.text = coinDetail.hVolume
-        binding.textViewMarketCap.text = coinDetail.marketCap
         coinDetail.iconUrl?.let { binding.detailButtonRound.loadImageFromUrl(it) }
         binding.textViewSymbol.text = coinDetail.symbol
         binding.textViewUuid.text = coinDetail.uuid
+
+
+        coinDetail.marketCap?.toDoubleOrNull()?.let { marketCap ->
+            val formattedMarketCap = formatLargeNumber(marketCap)
+            binding.textViewMarketCap.text = formattedMarketCap
+        }
+
+        coinDetail.hVolume?.toDoubleOrNull()?.let { hVolume ->
+            val formattedHVolume = formatLargeNumber(hVolume)
+            binding.textViewHVolume.text = formattedHVolume
+        }
 
         val isFavorite = coinDetail.isFav
 //            coinDetail.name?.let {
