@@ -111,13 +111,26 @@ class CoinsDetailFragment : Fragment() {
             swipeRefreshLayout.isRefreshing = false
         }
 
-        val sparklineCoin = selectedCoin.sparkline
-        if (sparklineCoin.isNotEmpty()) {
-            val highPrice = sparklineCoin.maxOrNull() ?: 0.0
-            val lowPrice = sparklineCoin.minOrNull() ?: 0.0
-            binding.textHighDetailPrice.text = "$highPrice"
-            binding.textLowDetailPrice.text = "$lowPrice"
+        val sparklineCoin = coinDetail.sparkline
 
+        if (sparklineCoin != null) {
+            val prices = sparklineCoin.mapNotNull { it?.toDoubleOrNull() }
+
+            if (prices.isNotEmpty()) {
+                var highPrice = Double.MIN_VALUE
+                var lowPrice = Double.MAX_VALUE
+
+                for (price in prices) {
+                    if (price > highPrice) {
+                        highPrice = price
+                    }
+                    if (price < lowPrice) {
+                        lowPrice = price
+                    }
+                }
+                binding.textHighDetailPrice.text = "$%.3f".format(highPrice)
+                binding.textLowDetailPrice.text = "$%.3f".format(lowPrice)
+            }
         }
 
         val changeCoin = coinDetail.change?.toDouble()
